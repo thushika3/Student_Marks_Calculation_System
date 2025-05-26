@@ -441,7 +441,7 @@
         <h1>EduTally</h1>
       </a>
       <nav class="nav-links" id="mainNavLinks">
-        <a href="student-dashboard.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
+        <a href="stud_db.html" class="active"><i class="fas fa-home"></i> Dashboard</a>
         <a href="view-internals.html"><i class="fas fa-chart-line"></i> Internals</a>
         <a href="view-externals.html"><i class="fas fa-star"></i> Externals</a>
         <a href="academic-calender.html"><i class="fas fa-calendar-check"></i> Academic Calender</a>
@@ -467,7 +467,7 @@
         <p>Track your academic progress, view results, and manage your student profile all in one place.</p>
       </div>
       <div class="welcome-image">
-        <img src="assets/images/student-avatar.jpg" alt="Student Avatar">
+        <img src="blank-profile-picture-973460_1280.webp" alt="Student Avatar">
       </div>
     </section>
 
@@ -518,7 +518,7 @@
       const studentId = localStorage.getItem('studentId');
       
       if (!studentToken || !studentName || !studentId) {
-        window.location.href = 'student-login.html';
+        window.location.href = 'studlog.html';
         return;
       }
       
@@ -526,30 +526,13 @@
       document.getElementById('welcomeMessage').textContent = `Welcome Back, ${studentName}!`;
       document.getElementById('userAvatar').textContent = getInitials(studentName);
       
-      // Fetch and display student stats (mock data - replace with actual API calls)
-      fetchStudentStats(studentId);
     });
     
     function getInitials(name) {
       return name.split(' ').map(n => n[0]).join('').toUpperCase();
     }
     
-    function fetchStudentStats(studentId) {
-      // In a real application, you would fetch this data from your API
-      // This is mock data for demonstration
-      const mockData = {
-        currentSemester: '5',
-        overallPercentage: '78.5%',
-        attendancePercentage: '92%',
-        topSubject: 'DBMS (89%)'
-      };
-      
-      // Update the UI with the fetched data
-      document.getElementById('currentSemester').textContent = mockData.currentSemester;
-      document.getElementById('overallPercentage').textContent = mockData.overallPercentage;
-      document.getElementById('attendancePercentage').textContent = mockData.attendancePercentage;
-      document.getElementById('topSubject').textContent = mockData.topSubject;
-    }
+   
     
     function logout() {
       // Clear student session data
