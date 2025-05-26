@@ -290,7 +290,7 @@
       <div id="loginMessage"></div>
       
       <div class="form-footer">
-        Don't have an account? <a href="student-register.html">Sign up</a>
+        Don't have an account? <a href="studreg.html">Sign up</a>
       </div>
     </form>
   </div>
@@ -346,7 +346,7 @@
           messageElement.className = 'success';
 
           setTimeout(() => {
-            window.location.href = "student-dashboard.html";
+            window.location.href = "stud_db.html";
           }, 1000);
         } else {
           throw new Error(response.message || 'Login failed');
@@ -367,7 +367,7 @@
     window.addEventListener('DOMContentLoaded', () => {
       const token = localStorage.getItem('studentToken');
       if (token) {
-        window.location.href = "student-dashboard.html";
+        window.location.href = "stud_db.html";
       }
       
     });
