@@ -1,0 +1,376 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Login | EduTally</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .login-container {
+      background: white;
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      overflow: hidden;
+      animation: fadeIn 0.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--success));
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .logo img {
+      height: 60px;
+      transition: var(--transition);
+    }
+
+    .logo:hover img {
+      transform: scale(1.05);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.8rem;
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 1.8rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px 14px 42px;
+      border: 2px solid #e9ecef;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+      background-color: #f8f9fa;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      cursor: pointer;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: var(--transition);
+      margin-top: 0.5rem;
+      letter-spacing: 0.5px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, var(--primary-dark), var(--secondary));
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    button::after {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -60%;
+      width: 200%;
+      height: 200%;
+      background: rgba(255, 255, 255, 0.2);
+      transform: rotate(30deg);
+      transition: var(--transition);
+    }
+
+    button:hover::after {
+      left: 100%;
+    }
+
+    #loginMessage {
+      margin-top: 1.5rem;
+      padding: 12px;
+      border-radius: var(--border-radius);
+      text-align: center;
+      font-weight: 500;
+      font-size: 0.95rem;
+      animation: fadeIn 0.3s ease;
+    }
+
+    .success {
+      color: #28a745;
+      background-color: rgba(40, 167, 69, 0.1);
+      border: 1px solid rgba(40, 167, 69, 0.2);
+    }
+
+    .error {
+      color: var(--danger);
+      background-color: rgba(247, 37, 133, 0.1);
+      border: 1px solid rgba(247, 37, 133, 0.2);
+    }
+
+    .forgot-link {
+      display: block;
+      text-align: right;
+      margin-top: 0.5rem;
+      color: var(--gray);
+      text-decoration: none;
+      font-size: 0.85rem;
+      transition: var(--transition);
+    }
+
+    .forgot-link:hover {
+      color: var(--primary);
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .form-footer a {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .form-footer a:hover {
+      text-decoration: underline;
+    }
+
+    .spinner {
+      display: inline-block;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 1.5rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      input {
+        padding-left: 38px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <img src="C:\Users\thish\OneDrive\Pictures\1.jpg" alt="EduTally Logo" />
+    </div>
+    <h2>Welcome Back</h2>
+    <form id="studentLogin">
+      <div class="form-group">
+        <label for="s_id">Student ID</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user input-icon"></i>
+          <input type="text" id="s_id" placeholder="S001" required />
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <i class="fas fa-lock input-icon"></i>
+          <input type="password" id="password" placeholder="••••••••" required />
+          <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+        </div>
+        <a href="forgot-password.html" class="forgot-link">Forgot password?</a>
+      </div>
+      
+      <button type="submit" id="loginButton">
+        <span id="buttonText">Login</span>
+      </button>
+      
+      <div id="loginMessage"></div>
+      
+      <div class="form-footer">
+        Don't have an account? <a href="student-register.html">Sign up</a>
+      </div>
+    </form>
+  </div>
+
+  
+  <script>
+    document.getElementById('studentLogin').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const s_id = document.getElementById("s_id").value.trim();
+      const password = document.getElementById("password").value;
+      const messageElement = document.getElementById("loginMessage");
+
+      messageElement.textContent = '';
+      messageElement.className = '';
+
+      if (!s_id || !password) {
+        messageElement.textContent = 'Please fill in all fields';
+        messageElement.className = 'error';
+        return;
+      }
+
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.textContent = 'Logging in...';
+
+      const data = { s_id, password };
+
+      fetch("http://localhost:5000/studentlogin", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
+      .then(response => {
+        if (response.access_token) {
+          const student = {
+            s_id: s_id,
+            s_name: response.student_name
+          };
+          localStorage.setItem('student', JSON.stringify(student));
+          localStorage.setItem('studentToken', response.access_token);
+          localStorage.setItem('studentName', response.student_name);
+          localStorage.setItem('studentId', s_id);
+          
+
+          messageElement.textContent = `✅ Login successful! Redirecting...`;
+          messageElement.className = 'success';
+
+          setTimeout(() => {
+            window.location.href = "student-dashboard.html";
+          }, 1000);
+        } else {
+          throw new Error(response.message || 'Login failed');
+        }
+        
+      })
+      .catch(error => {
+        console.error('Login error:', error);
+        messageElement.textContent = error.message || 'Login failed. Please try again.';
+        messageElement.className = 'error';
+      })
+      .finally(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Login';
+      });
+    });
+
+    window.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('studentToken');
+      if (token) {
+        window.location.href = "student-dashboard.html";
+      }
+      
+    });
+  </script>
+</body>
+</html>

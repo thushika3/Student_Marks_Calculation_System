@@ -1,0 +1,555 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Final Report Card</title>
+  <style>
+    :root {
+      --primary-color: #3498db;
+      --secondary-color: #2980b9;
+      --accent-color: #e74c3c;
+      --light-gray: #f8f9fa;
+      --dark-gray: #343a40;
+      --success-color: #2ecc71;
+      --warning-color: #f39c12;
+    }
+    
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      padding: 20px;
+      background-color: #f5f7fa;
+      color: #333;
+      line-height: 1.6;
+    }
+    
+    .report-container {
+      max-width: 1000px;
+      margin: 30px auto;
+      background: #fff;
+      padding: 40px;
+      border-radius: 12px;
+      box-shadow: 0 5px 25px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .report-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 10px;
+      background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+    }
+    
+    h1, h2 {
+      text-align: center;
+      margin-bottom: 5px;
+    }
+    
+    h1 {
+      color: var(--primary-color);
+      font-size: 2.5rem;
+      margin-bottom: 0;
+      letter-spacing: 1px;
+    }
+    
+    h2 {
+      font-weight: 500;
+      font-size: 1.8rem;
+      margin-top: 0;
+      color: var(--dark-gray);
+      margin-bottom: 30px;
+    }
+    
+    .header-info {
+      display: flex;
+      justify-content: space-between;
+      margin: 25px 0;
+      padding: 20px;
+      background-color: var(--light-gray);
+      border-radius: 10px;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .student-info {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+    
+    .student-info p {
+      margin: 0;
+      font-size: 1.1rem;
+    }
+    
+    .institution-info {
+      text-align: right;
+    }
+    
+    .institution-info p {
+      margin: 0;
+      font-size: 1rem;
+      color: #555;
+    }
+    
+    .institution-logo {
+      max-width: 120px;
+      margin-bottom: 10px;
+    }
+    
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 30px 0;
+      font-size: 1rem;
+      box-shadow: 0 0 25px rgba(0,0,0,0.05);
+    }
+    
+    thead tr {
+      background-color: var(--primary-color);
+      color: white;
+      text-align: center;
+      font-weight: 600;
+    }
+    
+    th, td {
+      padding: 14px 16px;
+      text-align: center;
+      border: 1px solid #e0e0e0;
+    }
+    
+    tbody tr {
+      transition: background-color 0.2s;
+    }
+    
+    tbody tr:nth-of-type(even) {
+      background-color: #f9f9f9;
+    }
+    
+    tbody tr:hover {
+      background-color: #eef7ff;
+    }
+    
+    .grade-A { color: var(--success-color); font-weight: bold; }
+    .grade-B { color: #27ae60; font-weight: bold; }
+    .grade-C { color: var(--warning-color); font-weight: bold; }
+    .grade-D { color: #e67e22; font-weight: bold; }
+    .grade-F { color: var(--accent-color); font-weight: bold; }
+    
+    .status-pass { color: var(--success-color); }
+    .status-fail { color: var(--accent-color); }
+    
+    .performance-summary {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 20px;
+      margin-top: 30px;
+    }
+    
+    .summary-card {
+      padding: 20px;
+      border-radius: 8px;
+      background-color: var(--light-gray);
+      text-align: center;
+      box-shadow: 0 3px 10px rgba(0,0,0,0.05);
+    }
+    
+    .summary-card h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+    
+    .summary-value {
+      font-size: 2rem;
+      font-weight: bold;
+      margin: 10px 0;
+    }
+    
+    .summary-label {
+      color: #666;
+      font-size: 0.9rem;
+    }
+    
+    .signature-area {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px dashed #ccc;
+    }
+    
+    .signature-box {
+      text-align: center;
+      width: 250px;
+    }
+    
+    .signature-line {
+      height: 1px;
+      background: #333;
+      margin: 60px 0 10px;
+      position: relative;
+    }
+    
+    .signature-line::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: #333;
+    }
+    
+    .error {
+      color: var(--accent-color);
+      text-align: center;
+      margin: 20px 0;
+      padding: 20px;
+      background-color: #fde8e8;
+      border-radius: 8px;
+      font-weight: 500;
+      border: 1px solid #f5c6cb;
+    }
+    
+    .date-issued {
+      text-align: right;
+      color: #666;
+      font-style: italic;
+      margin-bottom: 20px;
+    }
+    
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      color: #666;
+      font-size: 0.9rem;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+    }
+    
+    .watermark {
+      position: absolute;
+      opacity: 0.1;
+      font-size: 120px;
+      font-weight: bold;
+      color: var(--primary-color);
+      transform: rotate(-30deg);
+      z-index: -1;
+      top: 30%;
+      left: 10%;
+      pointer-events: none;
+    }
+    
+    .performance-chart {
+      height: 200px;
+      background: linear-gradient(to right, #f8f9fa, #e9f5ff);
+      border-radius: 8px;
+      margin: 30px 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary-color);
+      font-weight: bold;
+      border: 1px solid #e0e0e0;
+    }
+    
+    .remarks {
+      margin-top: 30px;
+      padding: 20px;
+      background-color: #f0f8ff;
+      border-radius: 8px;
+      border-left: 5px solid var(--primary-color);
+    }
+    
+    .remarks h3 {
+      margin-top: 0;
+      color: var(--primary-color);
+    }
+    
+    @media (max-width: 768px) {
+      .header-info, .signature-area {
+        flex-direction: column;
+      }
+      
+      .performance-summary {
+        grid-template-columns: 1fr;
+      }
+      
+      .signature-box {
+        width: 100%;
+        margin-bottom: 30px;
+      }
+      
+      table {
+        font-size: 0.9rem;
+      }
+      
+      th, td {
+        padding: 10px 12px;
+      }
+      
+      .watermark {
+        font-size: 60px;
+        top: 40%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="report-container">
+    <div class="watermark">OFFICIAL</div>
+    
+    <h1>EduTally</h1>
+    <h2>Academic Performance Report</h2>
+    
+    <div class="date-issued">Issued on: <span id="currentDate"></span></div>
+    
+    <div class="header-info">
+      <div class="student-info">
+        <p><strong>Student ID:</strong> <span id="studentId"></span></p>
+        <p><strong>Name:</strong> <span id="studentName"></span></p>
+        <p><strong>Class/Grade:</strong> <span id="studentClass">B-Tech II</span></p>
+        <p><strong>Academic Year:</strong> <span id="academicYear">2024-2025</span></p>
+      </div>
+      <div class="institution-info">
+        <img src="https://via.placeholder.com/120x60?text=School+Logo" alt="Institution Logo" class="institution-logo">
+        <p><strong>Greenwood High School</strong></p>
+        <p>123 Education Street, Academic City</p>
+        <p>PIN: 12345 | Phone: (123) 456-7890</p>
+        <p>Email: info@greenwood.edu</p>
+      </div>
+    </div>
+    
+    
+    
+    <div id="reportTable"></div>
+    
+    <div class="performance-summary">
+      <div class="summary-card">
+        <h3>Total Marks</h3>
+        <div class="summary-value" id="totalMarks">-</div>
+        <div class="summary-label">Out of 500</div>
+      </div>
+      <div class="summary-card">
+        <h3>Average Score</h3>
+        <div class="summary-value" id="averageMarks">-</div>
+        <div class="summary-label">Percentage</div>
+      </div>
+      <div class="summary-card">
+        <h3>Overall Grade</h3>
+        <div class="summary-value" id="overallGrade">-</div>
+        <div class="summary-label">Performance</div>
+      </div>
+    </div>
+    
+    <div class="remarks">
+      <h3>Remarks</h3>
+      <p id="performanceRemarks">Loading remarks...</p>
+    </div>
+    
+    
+    
+    <div class="footer">
+      <p>This is an official document. Any alterations will invalidate this report.</p>
+      <p>Generated by EduTally Academic Management System | Secure ID: <span id="reportId">RP-2023-${Math.floor(Math.random() * 10000)}</span></p>
+    </div>
+  </div>
+
+  <script>
+    // Set current date
+    const today = new Date();
+    const options = { year: 'numeric', month: 'long', day: 'numeric' };
+    document.getElementById('currentDate').textContent = today.toLocaleDateString('en-US', options);
+    
+    // Validate and load student data
+    let student = null;
+    try {
+      student = JSON.parse(localStorage.getItem("student"));
+      if (!student || typeof student !== 'object') {
+        throw new Error("Invalid student data");
+      }
+    } catch (e) {
+      console.error("Failed to parse student data:", e);
+      showError("Student not logged in. Redirecting to login...");
+      setTimeout(() => window.location.href = "index.html", 2000);
+      student = null;
+    }
+
+    if (student && student.s_id) {
+      // Display basic student info immediately
+      document.getElementById('studentId').textContent = student.s_id || 'N/A';
+      document.getElementById('studentName').textContent = student.s_name || 'N/A';
+      
+      // Validate student ID before making API call
+      if (!/^[A-Za-z0-9\-]+$/.test(student.s_id)) {
+        showError("Invalid student ID format");
+      } else {
+        fetchReportCard(student.s_id);
+      }
+    }
+
+    function fetchReportCard(studentId) {
+      // Show loading state
+      document.getElementById("reportTable").innerHTML = '<p style="text-align:center">Loading report card...</p>';
+      
+      fetch(`http://localhost:5000/api/reportcard/${studentId}`)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error(`Server responded with status ${res.status}`);
+          }
+          return res.json();
+        })
+        .then(data => {
+          if (data.error) {
+            throw new Error(data.error);
+          }
+          if (data.message) {
+            showError(data.message);
+            return;
+          }
+          
+          // Validate API response structure
+          if (!data.subjects || !Array.isArray(data.subjects)) {
+            throw new Error("Invalid data format received from server");
+          }
+          
+          renderReportCard(data);
+        })
+        .catch(err => {
+          console.error("Report card error:", err);
+          showError("Failed to load report card. Please try again later.");
+        });
+    }
+
+    function renderReportCard(data) {
+      // Create table
+      let tableHTML = `
+        <table>
+          <thead>
+            <tr>
+              <th>Subject Code</th>
+              <th>Subject Name</th>
+              <th>Internal (30)</th>
+              <th>External (70)</th>
+              <th>Total (100)</th>
+              <th>Grade</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+      `;
+
+      let totalSubjects = 0;
+      let passedSubjects = 0;
+      
+      data.subjects.forEach(sub => {
+        // Validate subject data
+        if (!sub.subject_id || !sub.subject_name || isNaN(sub.internal_total) || isNaN(sub.external_marks)) {
+          console.warn("Invalid subject data:", sub);
+          return;
+        }
+        
+        totalSubjects++;
+        const grade = sub.grade || calculateGrade(sub.final_marks);
+        const gradeClass = `grade-${grade.charAt(0)}`;
+        const status = grade === 'F' ? 'Fail' : 'Pass';
+        if (status === 'Pass') passedSubjects++;
+        
+        tableHTML += `
+          <tr>
+            <td>${sub.subject_id}</td>
+            <td>${sub.subject_name}</td>
+            <td>${validateMark(sub.internal_total, 30)}</td>
+            <td>${validateMark(sub.external_marks, 70)}</td>
+            <td>${validateMark(sub.final_marks, 100)}</td>
+            <td class="${gradeClass}">${grade}</td>
+            <td class="status-${status.toLowerCase()}">${status}</td>
+          </tr>
+        `;
+      });
+
+      tableHTML += `</tbody></table>`;
+      
+      document.getElementById("reportTable").innerHTML = tableHTML;
+      
+      // Calculate and display summary
+      const totalMarks = data.total_marks || calculateTotalMarks(data.subjects);
+      const averageMarks = data.average_marks || (totalMarks / totalSubjects).toFixed(2);
+      const overallGrade = calculateOverallGrade(averageMarks);
+      
+      document.getElementById("totalMarks").textContent = totalMarks;
+      document.getElementById("averageMarks").textContent = averageMarks;
+      document.getElementById("overallGrade").textContent = overallGrade;
+      document.getElementById("overallGrade").className = `summary-value grade-${overallGrade.charAt(0)}`;
+      
+      // Set performance remarks
+      document.getElementById("performanceRemarks").textContent = getPerformanceRemarks(overallGrade, passedSubjects, totalSubjects);
+    }
+
+    function validateMark(mark, max) {
+      mark = parseFloat(mark);
+      if (isNaN(mark)) return 'N/A';
+      if (mark < 0) return 0;
+      if (mark > max) return max;
+      return mark;
+    }
+
+    function calculateGrade(marks) {
+      marks = parseFloat(marks);
+      if (isNaN(marks)) return 'N/A';
+      if (marks >= 90) return 'A';
+      if (marks >= 80) return 'B';
+      if (marks >= 70) return 'C';
+      if (marks >= 60) return 'D';
+      return 'F';
+    }
+
+    function calculateTotalMarks(subjects) {
+      return subjects.reduce((total, sub) => {
+        return total + (parseFloat(sub.final_marks) || 0);
+      }, 0);
+    }
+
+    function calculateOverallGrade(average) {
+      average = parseFloat(average);
+      if (isNaN(average)) return 'N/A';
+      if (average >= 90) return 'A+';
+      if (average >= 80) return 'A';
+      if (average >= 70) return 'B';
+      if (average >= 60) return 'C';
+      if (average >= 50) return 'D';
+      return 'F';
+    }
+
+    function getPerformanceRemarks(grade, passed, total) {
+      const percentage = Math.round((passed / total) * 100);
+      
+      switch(grade) {
+        case 'A+':
+          return `Excellent performance! You've scored in the top percentile (${percentage}% subjects passed). Keep up the outstanding work!`;
+        case 'A':
+          return `Very good performance (${percentage}% subjects passed). You're demonstrating strong understanding of the material.`;
+        case 'B':
+          return `Good performance (${percentage}% subjects passed). With a little more effort, you can achieve even better results.`;
+        case 'C':
+          return `Satisfactory performance (${percentage}% subjects passed). Consider focusing more on your studies to improve.`;
+        case 'D':
+          return `Below average performance (${percentage}% subjects passed). Please consult your teachers for improvement strategies.`;
+        case 'F':
+          return `Unsatisfactory performance (${percentage}% subjects passed). Immediate remedial action is required.`;
+        default:
+          return `Performance evaluation not available.`;
+      }
+    }
+
+    function showError(message) {
+      const errorEl = document.getElementById("errorMsg");
+      errorEl.textContent = message;
+      errorEl.style.display = 'block';
+    }
+  </script>
+</body>
+</html>

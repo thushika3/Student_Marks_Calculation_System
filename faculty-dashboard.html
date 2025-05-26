@@ -1,0 +1,676 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Dashboard | EduTally</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-light: #dbeafe;
+      --primary-dark: #2563eb;
+      --danger: #ef4444;
+      --danger-dark: #dc2626;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
+      --radius: 0.5rem;
+      --radius-sm: 0.25rem;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: #f0f9ff;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--dark);
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: white;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+    }
+
+    .logo img {
+      width: 36px;
+      height: 36px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+    }
+
+    .logo h1 {
+      color: var(--primary);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-left: 0.75rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: color 0.2s ease;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-links a.active::after,
+    .nav-links a:hover::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary);
+    }
+
+    .menu-right {
+      display: flex;
+      gap: 1rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.2s ease;
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: var(--danger-dark);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .user-profile span {
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .avatar {
+      width: 36px;
+      height: 36px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 0.9rem;
+    }
+
+    .dashboard-container {
+      flex: 1;
+      padding: 2rem;
+      display: grid;
+      grid-template-columns: 250px 1fr;
+      gap: 2rem;
+    }
+
+    .sidebar {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      height: fit-content;
+    }
+
+    .sidebar-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--gray-light);
+    }
+
+    .sidebar-avatar {
+      width: 48px;
+      height: 48px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 1.25rem;
+    }
+
+    .sidebar-user h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .sidebar-user p {
+      font-size: 0.8rem;
+      color: var(--gray);
+    }
+
+    .sidebar-nav {
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .sidebar-nav a {
+      padding: 0.75rem 1rem;
+      border-radius: var(--radius-sm);
+      text-decoration: none;
+      color: var(--dark);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      transition: all 0.2s;
+    }
+
+    .sidebar-nav a:hover {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .sidebar-nav a.active {
+      background-color: var(--primary-light);
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .main-content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .welcome-card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 2rem;
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
+
+    .welcome-text h2 {
+      font-size: 1.8rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .welcome-text p {
+      color: var(--gray);
+      margin-bottom: 1.5rem;
+    }
+
+    .welcome-image img {
+      width: 200px;
+      height: auto;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .stat-card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.5rem;
+    }
+
+    .stat-card-header {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .stat-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .stat-icon.primary {
+      background-color: var(--primary-light);
+      color: var(--primary);
+    }
+
+    .stat-icon.success {
+      background-color: #ecfdf5;
+      color: var(--success);
+    }
+
+    .stat-icon.warning {
+      background-color: #fef3c7;
+      color: var(--warning);
+    }
+
+    .stat-card h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .stat-card p {
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    .stat-card .value {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-top: 0.5rem;
+    }
+
+    .quick-actions {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1.5rem;
+    }
+
+    .action-card {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+      gap: 1rem;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .action-card:hover {
+      transform: translateY(-5px);
+      box-shadow: var(--shadow-md);
+    }
+
+    .action-icon {
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-size: 1.5rem;
+    }
+
+    .action-card h3 {
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .action-card p {
+      color: var(--gray);
+      font-size: 0.9rem;
+      margin-bottom: 0.5rem;
+    }
+
+    .recent-activity {
+      background: white;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      padding: 1.5rem;
+    }
+
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .section-header h3 {
+      font-size: 1.25rem;
+      font-weight: 600;
+    }
+
+    .activity-list {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .activity-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 1rem;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      transition: background-color 0.2s;
+    }
+
+    .activity-item:hover {
+      background-color: var(--gray-light);
+    }
+
+    .activity-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      flex-shrink: 0;
+    }
+
+    .activity-content h4 {
+      font-size: 0.95rem;
+      margin-bottom: 0.25rem;
+    }
+
+    .activity-content p {
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    .activity-time {
+      font-size: 0.8rem;
+      color: var(--gray);
+      margin-top: 0.25rem;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-container {
+        grid-template-columns: 1fr;
+      }
+
+      .welcome-card {
+        flex-direction: column;
+        text-align: center;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        flex-direction: column;
+        padding: 1rem;
+      }
+
+      .nav-links {
+        margin: 1rem 0;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .menu-right {
+        margin-top: 1rem;
+      }
+
+      .stats-grid,
+      .quick-actions {
+        grid-template-columns: 1fr 1fr;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .stats-grid,
+      .quick-actions {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="index.html" class="logo">
+      <img src="C:\Users\thish\OneDrive\Pictures\1.jpg" alt="EduTally Logo">
+      <h1>EduTally</h1>
+    </a>
+    <nav class="nav-links">
+      <a href="faculty-dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a href="add-internals.html"><i class="fas fa-edit"></i> Add Internals</a>
+      <a href="view-students.html"><i class="fas fa-users"></i> Students</a>
+    </nav>
+    <div class="menu-right" id="authSection">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <div class="dashboard-container">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <div class="sidebar-avatar" id="userAvatar">F</div>
+        <div class="sidebar-user">
+          <h3 id="userName">Faculty Name</h3>
+          <p>Faculty Member</p>
+        </div>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="faculty-dashboard.html" class="active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="add-internals.html"><i class="fas fa-edit"></i> Add Internals</a>
+        <a href="check-internals.html"><i class="fas fa-search"></i> Check Internals</a>
+        <a href="add-externals.html"><i class="fas fa-file-alt"></i> Add Externals</a>
+        <a href="check-externals.html"><i class="fas fa-list"></i> Check Externals</a>
+        <a href="view-students.html"><i class="fas fa-users"></i> View Students</a>
+      </nav>
+    </aside>
+
+    <main class="main-content">
+      <section class="welcome-card">
+        <div class="welcome-text">
+          <h2 id="welcomeMessage">Welcome back!</h2>
+          <p>You have 3 pending mark submissions and 2 students awaiting feedback.</p>
+          <button class="btn btn-primary"><i class="fas fa-plus"></i> Add New Marks</button>
+        </div>
+        <div class="welcome-image">
+          <img src="https://illustrations.popsy.co/amber/teacher-with-laptop.svg" alt="Faculty illustration">
+        </div>
+      </section>
+
+      <section>
+        <h3 class="section-header">Quick Actions</h3>
+        <div class="quick-actions">
+          <a href="add-internals.html" class="action-card">
+            <div class="action-icon">
+              <i class="fas fa-edit"></i>
+            </div>
+            <h3>Add Internals</h3>
+            <p>Submit internal assessment marks</p>
+            <button class="btn btn-primary">Go</button>
+          </a>
+          <a href="check-internals.html" class="action-card">
+            <div class="action-icon">
+              <i class="fas fa-search"></i>
+            </div>
+            <h3>Check Internals</h3>
+            <p>View submitted internal marks</p>
+            <button class="btn btn-primary">Go</button>
+          </a>
+          <a href="view-students.html" class="action-card">
+            <div class="action-icon">
+              <i class="fas fa-users"></i>
+            </div>
+            <h3>View Students</h3>
+            <p>See your student list</p>
+            <button class="btn btn-primary">Go</button>
+          </a>
+        </div>
+      </section>
+
+      <section class="recent-activity">
+        <div class="section-header">
+          <h3>Recent Activity</h3>
+          <a href="#" class="btn btn-outline">View All</a>
+        </div>
+        <div class="activity-list" id="activityList">
+          <!-- Filled by JS -->
+        </div>
+      </section>
+    </main>
+  </div>
+
+  <script>
+    // Authentication and user session management
+    function updateAuthUI() {
+      const facultyName = localStorage.getItem('facultyName');
+      const facultyToken = localStorage.getItem('facultyToken');
+      const authSection = document.getElementById("authSection");
+      const userName = document.getElementById("userName");
+      const userAvatar = document.getElementById("userAvatar");
+      const welcomeMessage = document.getElementById("welcomeMessage");
+
+      if (facultyToken && facultyName) {
+        authSection.innerHTML = `
+          <div class="user-profile">
+            <div class="avatar">${facultyName.charAt(0).toUpperCase()}</div>
+            <span>${facultyName}</span>
+            <button class="btn btn-danger" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        `;
+        
+        userName.textContent = facultyName;
+        userAvatar.textContent = facultyName.charAt(0).toUpperCase();
+        welcomeMessage.textContent = `Welcome back, ${facultyName}!`;
+        
+        // Load sample activity data
+        loadActivityData();
+        
+        // Load sample stats
+        loadStatsData();
+      } else {
+        window.location.href = "faclogin.html";
+      }
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "index.html";
+    }
+
+    // Sample activity data
+    function loadActivityData() {
+      const activities = [
+        {
+          icon: "fas fa-edit",
+          title: "Submitted internal marks",
+          description: "For CS101 - Data Structures (Batch A)",
+          time: "2 hours ago"
+        },
+        {
+          icon: "fas fa-user-check",
+          title: "Verified student records",
+          description: "For 5 students in your class",
+          time: "1 day ago"
+        },
+        {
+          icon: "fas fa-file-import",
+          title: "Uploaded external marks",
+          description: "For CS102 - Algorithms",
+          time: "3 days ago"
+        },
+        {
+          icon: "fas fa-comment",
+          title: "Sent feedback",
+          description: "To 3 students about their performance",
+          time: "5 days ago"
+        }
+      ];
+
+      const activityList = document.getElementById("activityList");
+      activityList.innerHTML = activities.map(activity => `
+        <div class="activity-item">
+          <div class="activity-icon">
+            <i class="${activity.icon}"></i>
+          </div>
+          <div class="activity-content">
+            <h4>${activity.title}</h4>
+            <p>${activity.description}</p>
+            <div class="activity-time">${activity.time}</div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    
+    // Initialize on page load
+    document.addEventListener("DOMContentLoaded", updateAuthUI);
+  </script>
+</body>
+</html>

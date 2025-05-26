@@ -1,0 +1,567 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>External Marks - Student Dashboard</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+    /* Reset & base */
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --accent: #4895ef;
+      --light: #f8f9ff;
+      --dark: #2b2d42;
+      --success: #4cc9f0;
+      --warning: #f8961e;
+      --danger: #f72585;
+      --gray: #adb5bd;
+      --white: #ffffff;
+    }
+    
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #4361ee 0%, #3a0ca3 100%);
+      color: var(--dark);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 2rem 1rem;
+      line-height: 1.6;
+    }
+
+    /* Header styles */
+    .header {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--white);
+    }
+    
+    .header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+      letter-spacing: 0.5px;
+      text-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+    
+    .header p {
+      opacity: 0.9;
+      font-weight: 300;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* Container styles */
+    .container {
+      background: var(--white);
+      border-radius: 16px;
+      box-shadow: 0 12px 30px rgba(0,0,0,0.15);
+      max-width: 1000px;
+      width: 100%;
+      padding: 2.5rem;
+      box-sizing: border-box;
+      position: relative;
+      overflow: hidden;
+    }
+    
+    .container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 8px;
+      background: linear-gradient(90deg, var(--primary), var(--accent));
+    }
+
+    /* Table styles */
+    table {
+      width: 100%;
+      border-collapse: separate;
+      border-spacing: 0 10px;
+      font-size: 1rem;
+      color: var(--dark);
+    }
+    
+    th, td {
+      padding: 16px 24px;
+      text-align: center;
+    }
+    
+    thead th {
+      background-color: var(--primary);
+      color: var(--white);
+      font-weight: 600;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+    
+    thead th:first-child {
+      border-radius: 12px 0 0 0;
+    }
+    
+    thead th:last-child {
+      border-radius: 0 12px 0 0;
+    }
+    
+    tbody tr {
+      background-color: var(--white);
+      border-radius: 12px;
+      transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+      box-shadow: 0 2px 8px rgba(67, 97, 238, 0.1);
+      cursor: default;
+    }
+    
+    tbody tr:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(67, 97, 238, 0.2);
+    }
+    
+    tbody td {
+      position: relative;
+      font-weight: 500;
+    }
+    
+    tbody td:first-child {
+      border-radius: 12px 0 0 12px;
+    }
+    
+    tbody td:last-child {
+      border-radius: 0 12px 12px 0;
+    }
+    
+    /* Highlight external marks based on score */
+    tbody td:nth-child(3) {
+      font-weight: 600;
+      color: var(--primary-dark);
+    }
+    
+    tbody tr:nth-child(even) {
+      background-color: var(--light);
+    }
+
+    /* Message styles */
+    #message {
+      text-align: center;
+      padding: 1.5rem;
+      margin: 1rem 0;
+      border-radius: 12px;
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    
+    .error {
+      background-color: #ffebee;
+      color: var(--danger);
+      border-left: 4px solid var(--danger);
+    }
+    
+    .info {
+      background-color: #e3f2fd;
+      color: var(--primary-dark);
+      border-left: 4px solid var(--primary);
+    }
+    
+    .success {
+      background-color: #e8f5e9;
+      color: #2e7d32;
+      border-left: 4px solid #4caf50;
+    }
+
+    /* Button styles */
+    .action-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 2.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 14px 32px;
+      font-size: 1rem;
+      font-weight: 600;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      border: none;
+      letter-spacing: 0.5px;
+      user-select: none;
+      text-decoration: none;
+    }
+    
+    .btn-primary {
+      background: var(--primary);
+      color: var(--white);
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.3);
+    }
+    
+    .btn-primary:hover {
+      background: var(--primary-dark);
+      box-shadow: 0 6px 16px rgba(67, 97, 238, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .btn-outline {
+      background: transparent;
+      color: var(--primary);
+      border: 2px solid var(--primary);
+    }
+    
+    .btn-outline:hover {
+      background: rgba(67, 97, 238, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Loading animation */
+    .loader {
+      display: none;
+      text-align: center;
+      padding: 2rem;
+    }
+    
+    .loader-spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid rgba(67, 97, 238, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+      margin: 0 auto 1rem;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    /* Responsive styles */
+    @media (max-width: 768px) {
+      .container {
+        padding: 1.5rem;
+      }
+      
+      th, td {
+        padding: 12px 16px;
+        font-size: 0.9rem;
+      }
+      
+      .header h2 {
+        font-size: 1.5rem;
+      }
+    }
+    
+    @media (max-width: 576px) {
+      body {
+        padding: 1rem;
+      }
+      
+      .container {
+        padding: 1rem;
+      }
+      
+      th, td {
+        padding: 10px 12px;
+        font-size: 0.85rem;
+      }
+      
+      .btn {
+        padding: 12px 24px;
+        font-size: 0.9rem;
+      }
+      
+      /* Stack table cells on small screens */
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      
+      thead tr {
+        position: absolute;
+        top: -9999px;
+        left: -9999px;
+      }
+      
+      tbody tr {
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+      }
+      
+      tbody td {
+        border: none;
+        position: relative;
+        padding-left: 50%;
+        text-align: right;
+        border-radius: 0 !important;
+      }
+      
+      tbody td:before {
+        content: attr(data-label);
+        position: absolute;
+        left: 16px;
+        width: calc(50% - 16px);
+        padding-right: 10px;
+        font-weight: 600;
+        text-align: left;
+        color: var(--primary);
+      }
+      
+      tbody td:first-child {
+        border-radius: 12px 12px 0 0 !important;
+      }
+      
+      tbody td:last-child {
+        border-radius: 0 0 12px 12px !important;
+      }
+    }
+
+    /* Additional enhancements */
+    .marks-summary {
+      display: flex;
+      justify-content: space-around;
+      margin: 2rem 0;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    
+    .summary-card {
+      background: var(--white);
+      border-radius: 12px;
+      padding: 1.5rem;
+      min-width: 180px;
+      text-align: center;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease;
+    }
+    
+    .summary-card:hover {
+      transform: translateY(-5px);
+    }
+    
+    .summary-card h3 {
+      color: var(--gray);
+      font-size: 1rem;
+      font-weight: 500;
+      margin-bottom: 0.5rem;
+    }
+    
+    .summary-card p {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--primary);
+    }
+    
+    .summary-card .icon {
+      font-size: 2rem;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
+    }
+  </style>
+</head>
+<body>
+
+  <div class="header">
+    <h2><i class="fas fa-chart-line"></i> External Examination Results</h2>
+    <p>View your performance across all subjects in the external examinations</p>
+  </div>
+  
+  <div class="container">
+    <div id="message" class="info" style="display:none;"></div>
+    <div class="loader" id="loader">
+      <div class="loader-spinner"></div>
+      <p>Loading your results...</p>
+    </div>
+    
+    <div id="marksSummary" class="marks-summary" style="display:none;">
+      <div class="summary-card">
+        <div class="icon"><i class="fas fa-book-open"></i></div>
+        <h3>Total Subjects</h3>
+        <p id="totalSubjects">0</p>
+      </div>
+      <div class="summary-card">
+        <div class="icon"><i class="fas fa-star"></i></div>
+        <h3>Highest Score</h3>
+        <p id="highestScore">0</p>
+      </div>
+      <div class="summary-card">
+        <div class="icon"><i class="fas fa-percentage"></i></div>
+        <h3>Average Score</h3>
+        <p id="averageScore">0</p>
+      </div>
+    </div>
+    
+    <div class="table-responsive">
+      <table id="externalsTable" style="display:none;">
+        <thead>
+          <tr>
+            <th><i class="fas fa-id-card"></i> Subject Code</th>
+            <th><i class="fas fa-book"></i> Subject Name</th>
+            <th><i class="fas fa-star"></i> External Marks</th>
+            <th><i class="fas fa-chart-bar"></i> Performance</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="action-buttons">
+      <button class="btn btn-primary" onclick="window.location.href='student-dashboard.html'">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+      <button class="btn btn-outline" onclick="window.print()">
+        <i class="fas fa-print"></i> Print Results
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const s_id = localStorage.getItem("studentId")?.trim();
+      const messageDiv = document.getElementById("message");
+      const table = document.getElementById("externalsTable");
+      const tbody = table.querySelector("tbody");
+      const loader = document.getElementById("loader");
+      const marksSummary = document.getElementById("marksSummary");
+      
+      // Show loader while fetching data
+      loader.style.display = 'block';
+      messageDiv.style.display = 'none';
+
+      if (!s_id) {
+        showMessage("error", "Student not logged in. Redirecting to login...");
+        setTimeout(() => {
+          window.location.href = "student-login.html";
+        }, 2000);
+        return;
+      }
+
+      fetch(`http://localhost:5000/viewexternals?s_id=${encodeURIComponent(s_id)}`)
+        .then(response => {
+          if (!response.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return response.json();
+        })
+        .then(data => {
+          loader.style.display = 'none';
+          
+          if (!Array.isArray(data) || data.length === 0) {
+            showMessage("info", "No external marks found for this student.");
+            return;
+          }
+
+          // Calculate summary statistics
+          const totalSubjects = data.length;
+          const marks = data.map(item => parseFloat(item.external_marks));
+          const highestScore = Math.max(...marks);
+          const averageScore = (marks.reduce((a, b) => a + b, 0) / totalSubjects).toFixed(2);
+          
+          // Update summary cards
+          document.getElementById('totalSubjects').textContent = totalSubjects;
+          document.getElementById('highestScore').textContent = highestScore;
+          document.getElementById('averageScore').textContent = averageScore;
+          marksSummary.style.display = 'flex';
+          
+          // Show table and populate data
+          table.style.display = "table";
+          
+          data.forEach(item => {
+            const row = document.createElement("tr");
+            const marks = parseFloat(item.external_marks);
+            let performance = '';
+            let performanceClass = '';
+            
+            // Determine performance indicator
+            if (marks >= 85) {
+              performance = 'Excellent';
+              performanceClass = 'excellent';
+            } else if (marks >= 70) {
+              performance = 'Good';
+              performanceClass = 'good';
+            } else if (marks >= 50) {
+              performance = 'Average';
+              performanceClass = 'average';
+            } else {
+              performance = 'Needs Improvement';
+              performanceClass = 'poor';
+            }
+            
+            row.innerHTML = `
+              <td data-label="Subject Code">${item.sub_id}</td>
+              <td data-label="Subject Name">${item.sub_name}</td>
+              <td data-label="External Marks">${item.external_marks}</td>
+              <td data-label="Performance" class="${performanceClass}">
+                <span class="performance-indicator">${performance}</span>
+              </td>
+            `;
+            tbody.appendChild(row);
+          });
+          
+          // Add event listener for print button
+          document.querySelector('.btn-outline').addEventListener('click', () => {
+            window.print();
+          });
+        })
+        .catch(error => {
+          loader.style.display = 'none';
+          console.error('Error:', error);
+          showMessage("error", "Error loading data. Please try again later or contact support.");
+        });
+        
+      function showMessage(type, text) {
+        messageDiv.className = type;
+        messageDiv.innerHTML = type === 'error' 
+          ? `<i class="fas fa-exclamation-circle"></i> ${text}`
+          : `<i class="fas fa-info-circle"></i> ${text}`;
+        messageDiv.style.display = 'flex';
+      }
+    });
+    
+    // Add performance indicator styles
+    const style = document.createElement('style');
+    style.textContent = `
+      .excellent { color: #2e7d32; }
+      .good { color: #0288d1; }
+      .average { color: #ed6c02; }
+      .poor { color: #d32f2f; }
+      .performance-indicator {
+        display: inline-block;
+        padding: 4px 12px;
+        border-radius: 50px;
+        font-size: 0.85rem;
+        font-weight: 500;
+      }
+      .excellent .performance-indicator { background-color: #e8f5e9; }
+      .good .performance-indicator { background-color: #e3f2fd; }
+      .average .performance-indicator { background-color: #fff3e0; }
+      .poor .performance-indicator { background-color: #ffebee; }
+      @media print {
+        body { background: white; }
+        .container { box-shadow: none; }
+        .action-buttons, .header p { display: none; }
+        .header h2 { color: black; }
+      }
+    `;
+    document.head.appendChild(style);
+  </script>
+
+</body>
+</html>

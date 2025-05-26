@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Academic Calendar - EduTally</title>
+  <style>
+    body {
+      font-family: "Segoe UI", sans-serif;
+      margin: 0;
+      padding: 0;
+      background-color: #f5f7fa;
+    }
+    header {
+      background-color: #4a90e2;
+      color: white;
+      padding: 1rem 2rem;
+      text-align: center;
+    }
+    .container {
+      padding: 2rem;
+      max-width: 1100px;
+      margin: auto;
+    }
+    .events {
+      margin-bottom: 3rem;
+    }
+    .event {
+      background-color: white;
+      padding: 1rem;
+      border-left: 5px solid #4a90e2;
+      margin-bottom: 1rem;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .event.holiday {
+      border-left-color: #e74c3c;
+    }
+    .event.assessment {
+      border-left-color: #2ecc71;
+    }
+    .event.instruction {
+      border-left-color: #f39c12;
+    }
+    .event h3 {
+      margin: 0 0 0.5rem 0;
+    }
+    .event p {
+      margin: 0;
+      color: #555;
+    }
+    .calendar-year {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .month {
+      background-color: white;
+      padding: 1rem;
+      border-radius: 8px;
+      box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+    .month h3 {
+      text-align: center;
+      margin: 0 0 0.5rem 0;
+      color: #333;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    th, td {
+      text-align: center;
+      padding: 0.3rem;
+      border: 1px solid #ccc;
+    }
+    th {
+      background-color: #f0f0f0;
+    }
+    .highlight {
+      background-color: #ffefc3;
+      font-weight: bold;
+    }
+    .holiday-cell {
+      background-color: #ffdddd;
+    }
+    .assessment-cell {
+      background-color: #ddffdd;
+    }
+    .instruction-cell {
+      background-color: #fff3d1;
+    }
+    @media (max-width: 768px) {
+      .calendar-year {
+        grid-template-columns: repeat(1, 1fr);
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Academic Calendar 2024-25</h1>
+    <p>B.Tech-AGE Program - VFSTR University</p>
+  </header>
+
+  <div class="container">
+    <section class="events">
+      <h2>Upcoming Events</h2>
+      
+      <!-- 1st Year Events -->
+      <div class="event instruction">
+        <h3>1st Year - Commencement of Class Work</h3>
+        <p>Date: March 24, 2025</p>
+        <p>Description: Start of II Semester for 1st Year B.Tech-AGE</p>
+      </div>
+      
+      <div class="event assessment">
+        <h3>1st Year - Module 1 Assessments</h3>
+        <p>Date: May 2-5, 2025 (Target 1), May 16-17 (Target 3), May 19-21 (Target 4)</p>
+        <p>Description: Module 1 assessments with 2 assessments per day</p>
+      </div>
+      
+      <!-- 2nd & 3rd Year Events -->
+      <div class="event instruction">
+        <h3>2nd & 3rd Year - Commencement of Class Work</h3>
+        <p>Date: December 16, 2024</p>
+        <p>Description: Start of II Semester for 2nd & 3rd Year B.Tech-AGE</p>
+      </div>
+      
+      <div class="event assessment">
+        <h3>2nd & 3rd Year - Module 1 Assessments</h3>
+        <p>Date: January 24-29, 2025 (Target 1), Feb 7-8 (Target 3), Feb 10-14 (Target 4)</p>
+        <p>Description: Module 1 assessments with 2 assessments per day</p>
+      </div>
+      
+      <!-- 4th Year Events -->
+      <div class="event instruction">
+        <h3>4th Year - Commencement of Class Work</h3>
+        <p>Date: December 16, 2024</p>
+        <p>Description: Start of II Semester for 4th Year B.Tech-AGE</p>
+      </div>
+      
+      <!-- Common Events -->
+      <div class="event assessment">
+        <h3>P-Based Summative Assessment</h3>
+        <p>Date: April 17-29, 2025 (2nd/3rd/4th Year), July 17-23, 2025 (1st Year)</p>
+        <p>Description: Practical-based summative assessments</p>
+      </div>
+      
+      <div class="event assessment">
+        <h3>L-Based Summative Assessment</h3>
+        <p>Date: April 30-May 10, 2025 (2nd/3rd/4th Year), July 24-30, 2025 (1st Year)</p>
+        <p>Description: Lab-based summative assessments</p>
+      </div>
+      
+      <!-- Holidays -->
+      <div class="event holiday">
+        <h3>Christmas Holiday</h3>
+        <p>Date: December 25, 2024</p>
+      </div>
+      
+      <div class="event holiday">
+        <h3>Sankranthi Holidays</h3>
+        <p>Date: January 13-16, 2025 (Bhogi, Sankranthi, Kanuma)</p>
+      </div>
+      
+      <div class="event holiday">
+        <h3>Mahasivaratri</h3>
+        <p>Date: February 26, 2025</p>
+      </div>
+      
+      <div class="event holiday">
+        <h3>Good Friday</h3>
+        <p>Date: April 18, 2025</p>
+      </div>
+    </section>
+
+    <section class="calendar-year">
+      <!-- December 2024 -->
+      <div class="month">
+        <h3>December 2024</h3>
+        <table>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td></tr>
+          <tr><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td></tr>
+          <tr><td>15</td><td class="instruction-cell">16*</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td></tr>
+          <tr><td>22</td><td>23</td><td>24</td><td class="holiday-cell">25</td><td>26</td><td>27</td><td>28</td></tr>
+          <tr><td>29</td><td>30</td><td>31</td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <p>*Classwork begins for 2nd/3rd/4th Year</p>
+      </div>
+
+      <!-- January 2025 -->
+      <div class="month">
+        <h3>January 2025</h3>
+        <table>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          <tr><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+          <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td></tr>
+          <tr><td>13</td><td class="holiday-cell">14</td><td class="holiday-cell">15</td><td>16</td><td>17</td><td>18</td><td>19</td></tr>
+          <tr><td>20</td><td>21</td><td>22</td><td>23</td><td class="assessment-cell">24</td><td class="assessment-cell">25</td><td class="assessment-cell">26</td></tr>
+          <tr><td>27</td><td class="assessment-cell">28</td><td class="assessment-cell">29</td><td>30</td><td>31</td><td></td><td></td></tr>
+        </table>
+        <p>Holidays: 13-15 Jan (Bhogi, Sankranthi, Kanuma)<br>
+        24-29 Jan: Module 1 Assessments (2nd/3rd Year)</p>
+      </div>
+
+      <!-- February 2025 -->
+      <div class="month">
+        <h3>February 2025</h3>
+        <table>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td>1</td><td>2</td></tr>
+          <tr><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+          <tr><td>10</td><td class="assessment-cell">11</td><td class="assessment-cell">12</td><td class="assessment-cell">13</td><td class="assessment-cell">14</td><td>15</td><td>16</td></tr>
+          <tr><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td></tr>
+          <tr><td>24</td><td>25</td><td class="holiday-cell">26</td><td>27</td><td>28</td><td></td><td></td></tr>
+        </table>
+        <p>7-8 Feb: Module 1 Target 3 (2nd/3rd Year)<br>
+        10-14 Feb: Module 1 Target 4 (2nd/3rd Year)<br>
+        26 Feb: Mahasivaratri</p>
+      </div>
+
+      <!-- March 2025 -->
+      <div class="month">
+        <h3>March 2025</h3>
+        <table>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          <tr><td></td><td></td><td></td><td></td><td></td><td>1</td><td>2</td></tr>
+          <tr><td>3</td><td>4</td><td>5</td><td>6</td><td>7</td><td>8</td><td>9</td></tr>
+          <tr><td>10</td><td>11</td><td>12</td><td>13</td><td class="holiday-cell">14</td><td>15</td><td>16</td></tr>
+          <tr><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td><td>22</td><td>23</td></tr>
+          <tr><td class="instruction-cell">24</td><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td></tr>
+          <tr><td>31</td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <p>14 Mar: Holi<br>
+        24 Mar: Classwork begins for 1st Year</p>
+      </div>
+
+      <!-- April 2025 -->
+      <div class="month">
+        <h3>April 2025</h3>
+        <table>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          <tr><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+          <tr><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td><td class="assessment-cell">11</td><td class="assessment-cell">12</td></tr>
+          <tr><td class="assessment-cell">13</td><td class="assessment-cell">14</td><td class="assessment-cell">15</td><td class="assessment-cell">16</td><td class="holiday-cell">17</td><td class="holiday-cell">18</td><td>19</td></tr>
+          <tr><td>20</td><td>21</td><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td></tr>
+          <tr><td>27</td><td>28</td><td>29</td><td>30</td><td></td><td></td><td></td></tr>
+        </table>
+        <p>11-16 Apr: Module 2 Target 4 (2nd/3rd Year)<br>
+        17-29 Apr: P-Based Summative Assessments (2nd/3rd/4th Year)<br>
+        18 Apr: Good Friday</p>
+      </div>
+
+      <!-- May 2025 -->
+      <div class="month">
+        <h3>May 2025</h3>
+        <table>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          <tr><td></td><td></td><td></td><td></td><td>1</td><td class="assessment-cell">2</td><td class="assessment-cell">3</td></tr>
+          <tr><td class="assessment-cell">4</td><td class="assessment-cell">5</td><td>6</td><td>7</td><td>8</td><td>9</td><td>10</td></tr>
+          <tr><td>11</td><td>12</td><td>13</td><td>14</td><td>15</td><td class="assessment-cell">16</td><td class="assessment-cell">17</td></tr>
+          <tr><td>18</td><td class="assessment-cell">19</td><td class="assessment-cell">20</td><td class="assessment-cell">21</td><td>22</td><td>23</td><td>24</td></tr>
+          <tr><td>25</td><td>26</td><td>27</td><td>28</td><td>29</td><td>30</td><td>31</td></tr>
+        </table>
+        <p>2-5 May: Module 1 Target 1 (1st Year)<br>
+        16-17 May: Module 1 Target 3 (1st Year)<br>
+        19-21 May: Module 1 Target 4 (1st Year)</p>
+      </div>
+
+      <!-- June 2025 -->
+      <div class="month">
+        <h3>June 2025</h3>
+        <table>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          <tr><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td><td>6</td><td class="holiday-cell">7</td></tr>
+          <tr><td>8</td><td>9</td><td>10</td><td>11</td><td>12</td><td>13</td><td>14</td></tr>
+          <tr><td>15</td><td>16</td><td>17</td><td>18</td><td>19</td><td>20</td><td>21</td></tr>
+          <tr><td>22</td><td>23</td><td>24</td><td>25</td><td>26</td><td class="assessment-cell">27</td><td class="assessment-cell">28</td></tr>
+          <tr><td class="assessment-cell">29</td><td class="assessment-cell">30</td><td></td><td></td><td></td><td></td><td></td></tr>
+        </table>
+        <p>7 Jun: Bakrid<br>
+        27-30 Jun: Module 2 Target 1 (1st Year)</p>
+      </div>
+
+      <!-- July 2025 -->
+      <div class="month">
+        <h3>July 2025</h3>
+        <table>
+          <tr><th>Sun</th><th>Mon</th><th>Tue</th><th>Wed</th><th>Thu</th><th>Fri</th><th>Sat</th></tr>
+          <tr><td></td><td></td><td>1</td><td>2</td><td>3</td><td>4</td><td>5</td></tr>
+          <tr><td>6</td><td class="holiday-cell">7</td><td>8</td><td>9</td><td>10</td><td class="assessment-cell">11</td><td class="assessment-cell">12</td></tr>
+          <tr><td>13</td><td class="assessment-cell">14</td><td class="assessment-cell">15</td><td class="assessment-cell">16</td><td class="holiday-cell">17</td><td class="holiday-cell">18</td><td>19</td></tr>
+          <tr><td>20</td><td>21</td><td>22</td><td>23</td><td class="assessment-cell">24</td><td class="assessment-cell">25</td><td class="assessment-cell">26</td></tr>
+          <tr><td class="assessment-cell">27</td><td class="assessment-cell">28</td><td class="assessment-cell">29</td><td class="assessment-cell">30</td><td>31</td><td></td><td></td></tr>
+        </table>
+        <p>7 Jul: Moharrum (Sunday)<br>
+        11-12 Jul: Module 2 Target 3 (1st Year)<br>
+        14-16 Jul: Module 2 Target 4 (1st Year)<br>
+        17-23 Jul: P-Based Summative Assessments (1st Year)<br>
+        24-30 Jul: L-Based Summative Assessments (1st Year)</p>
+      </div>
+
+    </section>
+  </div>
+</body>
+</html>

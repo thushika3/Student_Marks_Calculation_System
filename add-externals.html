@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Submit External Marks | EduTally</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-light: #dbeafe;
+      --primary-dark: #2563eb;
+      --primary-extra-light: #eff6ff;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --danger-dark: #dc2626;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --success-dark: #059669;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --dark: #1e293b;
+      --darker: #0f172a;
+      --light: #f8fafc;
+      --lighter: #f1f5f9;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
+      --gray-lighter: #f1f5f9;
+      --radius: 0.5rem;
+      --radius-sm: 0.25rem;
+      --radius-lg: 0.75rem;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--gray-lighter);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 2rem;
+      color: var(--dark);
+      line-height: 1.5;
+    }
+
+    .form-container {
+      background: white;
+      padding: 2.5rem 3rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-lg);
+      width: 100%;
+      max-width: 480px;
+      text-align: center;
+      transition: var(--transition);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .form-container:hover {
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.15);
+    }
+
+    h2 {
+      margin-bottom: 1.75rem;
+      color: var(--darker);
+      font-size: 1.75rem;
+      font-weight: 700;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--darker);
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 1px solid var(--gray-light);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      transition: var(--transition);
+      background-color: var(--lighter);
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+      background-color: white;
+    }
+
+    input[readonly] {
+      background-color: var(--gray-lighter);
+      cursor: not-allowed;
+      color: var(--gray);
+    }
+
+    input::placeholder {
+      color: var(--gray);
+      opacity: 0.6;
+    }
+
+    .form-icon {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      pointer-events: none;
+    }
+
+    button {
+      width: 100%;
+      padding: 0.875rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      margin-top: 0.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    button:disabled {
+      background-color: var(--gray-light);
+      cursor: not-allowed;
+      transform: none;
+      box-shadow: none;
+    }
+
+    #message {
+      margin-top: 1.5rem;
+      padding: 1rem;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+      animation: fadeIn 0.3s ease-out;
+      text-align: left;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .success {
+      color: var(--success-dark);
+      background-color: var(--success-light);
+      border: 1px solid var(--success);
+    }
+
+    .error {
+      color: var(--danger-dark);
+      background-color: var(--danger-light);
+      border: 1px solid var(--danger);
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 4px;
+      background-color: var(--gray-light);
+      border-radius: 2px;
+      margin-top: 0.75rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: var(--success);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    .mark-hint {
+      font-size: 0.85rem;
+      color: var(--gray);
+      margin-top: 0.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 600px) {
+      body {
+        padding: 1rem;
+      }
+
+      .form-container {
+        padding: 2rem 1.5rem;
+      }
+
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+
+    @media (max-width: 400px) {
+      .form-container {
+        padding: 1.75rem 1.25rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container">
+    <h2><i class="fas fa-file-alt"></i> Submit External Marks</h2>
+    <form id="externalForm">
+      <div class="form-group">
+        <label for="s_id">Student ID</label>
+        <input type="text" id="s_id" required placeholder="Enter student ID" />
+        <i class="fas fa-user-graduate form-icon"></i>
+      </div>
+      
+      <div class="form-group">
+        <label for="f_id">Faculty ID</label>
+        <input type="text" id="f_id" readonly />
+        <i class="fas fa-user-tie form-icon"></i>
+      </div>
+      
+      <div class="form-group">
+        <label for="sub_id">Subject ID</label>
+        <input type="text" id="sub_id" required placeholder="Enter subject ID" />
+        <i class="fas fa-book form-icon"></i>
+      </div>
+      
+      <div class="form-group">
+        <label for="sub_name">Subject Name</label>
+        <input type="text" id="sub_name" required placeholder="Enter subject name" />
+        <i class="fas fa-book-open form-icon"></i>
+      </div>
+      
+      <div class="form-group">
+        <label for="external_marks">External Marks</label>
+        <input type="number" id="external_marks" min="0" max="75" required placeholder="0-75" />
+        <div class="mark-hint">
+          <i class="fas fa-info-circle"></i>
+          <span>Maximum marks: 75</span>
+        </div>
+      </div>
+      
+      <button type="submit" id="submitBtn">
+        <i class="fas fa-paper-plane"></i> Submit Marks
+      </button>
+      
+      <div id="message" style="display: none;">
+        <div id="messageContent"></div>
+        <div class="progress-container" id="progressContainer">
+          <div class="progress-bar" id="progressBar"></div>
+        </div>
+      </div>
+    </form>
+  </div>
+
+  <script>
+    // Auto-fill f_id from localStorage and check auth
+    document.addEventListener("DOMContentLoaded", () => {
+      const storedFid = localStorage.getItem("facultyId");
+      const facultyToken = localStorage.getItem("facultyToken");
+      
+      if (!facultyToken || !storedFid) {
+        alert("Please login to access this page");
+        window.location.href = "faclogin.html";
+        return;
+      }
+      
+      document.getElementById("f_id").value = storedFid;
+    });
+
+    // Handle form submission
+    document.getElementById("externalForm").addEventListener("submit", async function(e) {
+      e.preventDefault();
+      
+      const submitBtn = document.getElementById("submitBtn");
+      const messageBox = document.getElementById("message");
+      const messageContent = document.getElementById("messageContent");
+      const progressBar = document.getElementById("progressBar");
+      
+      // Reset UI state
+      messageBox.style.display = "none";
+      submitBtn.disabled = true;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      
+      // Get form values
+      const s_id = document.getElementById("s_id").value.trim();
+      const f_id = document.getElementById("f_id").value.trim();
+      const sub_id = document.getElementById("sub_id").value.trim();
+      const sub_name = document.getElementById("sub_name").value.trim();
+      const external_marks = parseFloat(document.getElementById("external_marks").value);
+
+      // Validate marks
+      if (external_marks < 0 || external_marks > 75) {
+        showMessage("External marks must be between 0 and 75", "error");
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Marks';
+        return;
+      }
+
+      try {
+        const response = await fetch("http://localhost:5000/externals", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${localStorage.getItem("facultyToken")}`
+          },
+          body: JSON.stringify({ s_id, f_id, sub_id, sub_name, external_marks }),
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Submission failed");
+        }
+
+        // Show success with progress animation
+        showMessage("✅ Marks submitted successfully! Redirecting...", "success");
+        progressBar.style.width = "100%";
+        
+        // Redirect after delay
+        setTimeout(() => {
+          window.location.href = "faculty-dashboard.html";
+        }, 1500);
+        
+      } catch (error) {
+        console.error("Error:", error);
+        showMessage(`❌ ${error.message}`, "error");
+      } finally {
+        submitBtn.disabled = false;
+        submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Marks';
+      }
+    });
+
+    function showMessage(text, type) {
+      const messageBox = document.getElementById("message");
+      const messageContent = document.getElementById("messageContent");
+      const progressContainer = document.getElementById("progressContainer");
+      
+      messageContent.innerHTML = text;
+      messageBox.className = type;
+      messageBox.style.display = "flex";
+      
+      // Only show progress bar for success messages
+      progressContainer.style.display = type === "success" ? "block" : "none";
+      
+      // Scroll to message
+      messageBox.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  </script>
+</body>
+</html>

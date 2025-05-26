@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Registration | EduTally</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .register-container {
+      background: white;
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .register-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--success));
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 1.8rem;
+    }
+
+    .logo img {
+      height: 60px;
+      transition: var(--transition);
+    }
+
+    .logo:hover img {
+      transform: scale(1.05);
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 1.8rem;
+      color: var(--dark);
+      font-weight: 600;
+      font-size: 1.8rem;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 2px solid #e9ecef;
+      border-radius: var(--border-radius);
+      font-size: 1rem;
+      transition: var(--transition);
+      background-color: #f8f9fa;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 15px;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(to right, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: var(--transition);
+      margin-top: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    button:hover {
+      background: linear-gradient(to right, var(--primary-dark), var(--secondary));
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(67, 97, 238, 0.3);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #registerMessage {
+      margin-top: 1.5rem;
+      padding: 12px;
+      border-radius: var(--border-radius);
+      text-align: center;
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    .success {
+      color: #28a745;
+      background-color: rgba(40, 167, 69, 0.1);
+      border: 1px solid rgba(40, 167, 69, 0.2);
+    }
+
+    .error {
+      color: var(--danger);
+      background-color: rgba(247, 37, 133, 0.1);
+      border: 1px solid rgba(247, 37, 133, 0.2);
+    }
+
+    .back-link {
+      display: block;
+      margin-top: 1.8rem;
+      color: var(--primary);
+      text-decoration: none;
+      text-align: center;
+      font-weight: 500;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .back-link:hover {
+      color: var(--secondary);
+      text-decoration: underline;
+    }
+
+    .password-strength {
+      margin-top: 0.5rem;
+      height: 4px;
+      background: #e9ecef;
+      border-radius: 2px;
+      overflow: hidden;
+    }
+
+    .strength-meter {
+      height: 100%;
+      width: 0%;
+      transition: var(--transition);
+    }
+
+    .weak {
+      background: #ff6b6b;
+      width: 33%;
+    }
+
+    .medium {
+      background: #ffd166;
+      width: 66%;
+    }
+
+    .strong {
+      background: #06d6a0;
+      width: 100%;
+    }
+
+    .form-footer {
+      text-align: center;
+      margin-top: 1.5rem;
+      color: var(--gray);
+      font-size: 0.9rem;
+    }
+
+    @media (max-width: 480px) {
+      .register-container {
+        padding: 1.5rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <div class="logo">
+      <img src="C:\Users\thish\OneDrive\Pictures\1.jpg" alt="EduTally Logo" />
+    </div>
+    <h2>Create Student Account</h2>
+    <form id="studentRegisterForm">
+      <div class="form-group">
+        <label for="s_id">Student ID</label>
+        <div class="input-wrapper">
+          <input type="text" id="s_id" placeholder="S001" required />
+          <i class="input-icon">🔢</i>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="s_name">Full Name</label>
+        <div class="input-wrapper">
+          <input type="text" id="s_name" placeholder="John Doe" required />
+          <i class="input-icon">👤</i>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <input type="password" id="password" placeholder="••••••••" required />
+          <i class="input-icon">🔒</i>
+        </div>
+        <div class="password-strength">
+          <div class="strength-meter" id="passwordStrength"></div>
+        </div>
+      </div>
+      
+      <div class="form-group">
+        <label for="c_id">Class ID</label>
+        <div class="input-wrapper">
+          <input type="text" id="c_id" placeholder="C101" required />
+          <i class="input-icon">🏫</i>
+        </div>
+      </div>
+      
+      <button type="submit" id="registerButton">
+        Register Now
+      </button>
+      
+      <div id="registerMessage"></div>
+      
+      <div class="form-footer">
+        Already have an account? <a href="login.html" style="color: var(--primary); text-decoration: none;">Sign in</a>
+      </div>
+      
+      <a href="index.html" class="back-link">
+        ← Return to Homepage
+      </a>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('studentRegisterForm').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const s_id = document.getElementById('s_id').value.trim();
+      const s_name = document.getElementById('s_name').value.trim();
+      const password = document.getElementById('password').value;
+      const c_id = document.getElementById('c_id').value.trim();
+      const msg = document.getElementById('registerMessage');
+      const button = document.getElementById('registerButton');
+
+      msg.textContent = '';
+      msg.className = '';
+      button.disabled = true;
+      button.innerHTML = '<span class="spinner">⏳</span> Processing...';
+
+      const studentData = { s_id, s_name, password, c_id };
+
+      // Simulate API call with timeout for demo
+      setTimeout(() => {
+        // In a real app, you would use fetch() to your backend
+        // This is just for demonstration
+        const isSuccess = Math.random() > 0.3; // 70% success rate for demo
+        
+        if (isSuccess) {
+          msg.textContent = "🎉 Registration successful! Redirecting...";
+          msg.className = 'success';
+          const student = {
+            s_id: s_id,
+            s_name: response.student_name
+          };
+          
+          // Save to localStorage
+          localStorage.setItem('student', JSON.stringify(student));
+          localStorage.setItem('studentToken', 'demo-token-' + Math.random().toString(36).substr(2, 9));
+          localStorage.setItem('studentName', s_name);
+          localStorage.setItem('studentId', s_id);
+          
+          setTimeout(() => {
+            window.location.href = 'student-dashboard.html';
+          }, 1500);
+        } else {
+          msg.textContent = "⚠️ Student ID already registered";
+          msg.className = 'error';
+          button.disabled = false;
+          button.innerHTML = 'Register Now';
+        }
+      }, 1500);
+    });
+
+    // Password strength indicator
+    document.getElementById('password').addEventListener('input', function(e) {
+      const password = e.target.value;
+      const strengthBar = document.getElementById('passwordStrength');
+      
+      // Reset
+      strengthBar.className = 'strength-meter';
+      
+      if (password.length === 0) return;
+      
+      // Simple strength calculation
+      let strength = 0;
+      if (password.length > 5) strength += 1;
+      if (password.length > 8) strength += 1;
+      if (/[A-Z]/.test(password)) strength += 1;
+      if (/[0-9]/.test(password)) strength += 1;
+      if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+      
+      if (strength < 2) {
+        strengthBar.classList.add('weak');
+      } else if (strength < 4) {
+        strengthBar.classList.add('medium');
+      } else {
+        strengthBar.classList.add('strong');
+      }
+    });
+  </script>
+</body>
+</html>

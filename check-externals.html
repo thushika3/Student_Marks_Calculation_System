@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Check All Externals</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #28a745;
+      --primary-dark: #218838;
+      --secondary: #20c997;
+      --danger: #dc3545;
+      --light: #f8f9fa;
+      --dark: #343a40;
+      --gray: #6c757d;
+      --border-radius: 10px;
+      --box-shadow: 0 8px 20px rgba(0, 0, 0, 0.08);
+      --transition: all 0.3s ease;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+      min-height: 100vh;
+      padding: 2rem;
+      color: var(--dark);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    h2 {
+      text-align: center;
+      color: var(--primary);
+      margin-bottom: 2rem;
+      font-weight: 600;
+      font-size: 2rem;
+      position: relative;
+      padding-bottom: 0.5rem;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 80px;
+      height: 4px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 2px;
+    }
+
+    .card {
+      background: white;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      overflow: hidden;
+      margin-bottom: 2rem;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+      overflow: hidden;
+    }
+
+    th, td {
+      padding: 15px 20px;
+      text-align: center;
+      position: relative;
+    }
+
+    th {
+      background-color: var(--primary);
+      color: white;
+      font-weight: 500;
+      text-transform: uppercase;
+      font-size: 0.85rem;
+      letter-spacing: 0.5px;
+    }
+
+    th:first-child {
+      border-top-left-radius: var(--border-radius);
+    }
+
+    th:last-child {
+      border-top-right-radius: var(--border-radius);
+    }
+
+    tr {
+      border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+      transition: var(--transition);
+    }
+
+    tr:last-child {
+      border-bottom: none;
+    }
+
+    tr:hover {
+      background-color: rgba(40, 167, 69, 0.05);
+      transform: translateY(-1px);
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    td {
+      color: var(--gray);
+      font-weight: 400;
+    }
+
+    .external-cell {
+      font-weight: 600;
+      color: var(--primary);
+    }
+
+    #message {
+      text-align: center;
+      padding: 1rem;
+      margin-bottom: 1.5rem;
+      border-radius: var(--border-radius);
+      font-weight: 500;
+      display: none;
+    }
+
+    .error {
+      background-color: rgba(220, 53, 69, 0.1);
+      color: var(--danger);
+      border: 1px solid rgba(220, 53, 69, 0.2);
+    }
+
+    .success {
+      background-color: rgba(40, 167, 69, 0.1);
+      color: var(--primary);
+      border: 1px solid rgba(40, 167, 69, 0.2);
+    }
+
+    .back-btn {
+      display: flex;
+      justify-content: center;
+      margin-top: 2rem;
+    }
+
+    .btn {
+      padding: 12px 28px;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: 50px;
+      cursor: pointer;
+      font-size: 1rem;
+      font-weight: 500;
+      transition: var(--transition);
+      display: inline-flex;
+      align-items: center;
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.2);
+    }
+
+    .btn:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 6px 16px rgba(40, 167, 69, 0.3);
+    }
+
+    .btn i {
+      margin-right: 8px;
+    }
+
+    .loading {
+      display: flex;
+      justify-content: center;
+      padding: 2rem;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 4px solid rgba(40, 167, 69, 0.1);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--gray);
+    }
+
+    .empty-state i {
+      font-size: 3rem;
+      color: var(--primary);
+      margin-bottom: 1rem;
+      opacity: 0.5;
+    }
+
+    @media (max-width: 768px) {
+      body {
+        padding: 1rem;
+      }
+
+      .card {
+        border-radius: 0;
+        box-shadow: none;
+      }
+
+      table {
+        display: block;
+        overflow-x: auto;
+      }
+
+      th, td {
+        padding: 12px 8px;
+        font-size: 0.85rem;
+      }
+
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h2>All Externals Submitted</h2>
+    
+    <div id="message" class="error"></div>
+
+    <div class="card">
+      <div class="loading" id="loading">
+        <div class="spinner"></div>
+      </div>
+      <div id="emptyState" class="empty-state" style="display: none;">
+        <i class="fas fa-clipboard-list"></i>
+        <h3>No External Marks Found</h3>
+        <p>There are currently no external marks submitted for your subjects.</p>
+      </div>
+      <table id="externalsTable" style="display:none;">
+        <thead>
+          <tr>
+            <th>Student ID</th>
+            <th>Subject ID</th>
+            <th>Subject Name</th>
+            <th>External Marks</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+
+    <div class="back-btn">
+      <button class="btn" onclick="window.location.href='faculty-dashboard.html'">
+        <i class="fas fa-arrow-left"></i> Back to Dashboard
+      </button>
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const f_id = localStorage.getItem("facultyId")?.trim();
+      const messageDiv = document.getElementById("message");
+      const table = document.getElementById("externalsTable");
+      const tbody = table.querySelector("tbody");
+      const loadingDiv = document.getElementById("loading");
+      const emptyStateDiv = document.getElementById("emptyState");
+
+      if (!f_id) {
+        messageDiv.style.display = "block";
+        messageDiv.textContent = "Faculty not logged in. Redirecting to login...";
+        setTimeout(() => {
+          window.location.href = "faclogin.html";
+        }, 2000);
+        return;
+      }
+
+      fetch(`http://localhost:5000/checkexternals?f_id=${encodeURIComponent(f_id)}`)
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('Network response was not ok');
+          }
+          return res.json();
+        })
+        .then(data => {
+          loadingDiv.style.display = "none";
+          
+          if (!Array.isArray(data) || data.length === 0) {
+            emptyStateDiv.style.display = "block";
+            messageDiv.style.display = "block";
+            messageDiv.textContent = "No external marks found for your subjects.";
+            messageDiv.className = "success";
+            return;
+          }
+
+          table.style.display = "table";
+          emptyStateDiv.style.display = "none";
+
+          data.forEach(entry => {
+            const row = document.createElement("tr");
+            row.innerHTML = `
+              <td>${entry.s_id}</td>
+              <td>${entry.sub_id}</td>
+              <td>${entry.sub_name}</td>
+              <td class="external-cell">${entry.external}</td>
+            `;
+            tbody.appendChild(row);
+          });
+        })
+        .catch(err => {
+          console.error(err);
+          loadingDiv.style.display = "none";
+          messageDiv.style.display = "block";
+          messageDiv.textContent = "Error loading data. Please try again later.";
+        });
+    });
+  </script>
+</body>
+</html>

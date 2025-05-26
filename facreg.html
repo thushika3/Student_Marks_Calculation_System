@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Registration | EduTally</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+  <style>
+    :root {
+      --primary: #4361ee;
+      --primary-dark: #3a56d4;
+      --secondary: #3f37c9;
+      --success: #4cc9f0;
+      --danger: #f72585;
+      --light: #f8f9fa;
+      --dark: #212529;
+      --gray: #6c757d;
+      --border-radius: 12px;
+      --box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+      --transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #f5f7fa 0%, #e4e8f0 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .register-container {
+      background: white;
+      padding: 2.5rem;
+      border-radius: var(--border-radius);
+      box-shadow: var(--box-shadow);
+      width: 100%;
+      max-width: 450px;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .register-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 5px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    h2 {
+      text-align: center;
+      margin-bottom: 2rem;
+      color: var(--dark);
+      font-weight: 600;
+      position: relative;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -10px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 3px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+      border-radius: 3px;
+    }
+
+    .logo {
+      text-align: center;
+      margin-bottom: 1.5rem;
+    }
+
+    .logo img {
+      height: 60px;
+      object-fit: contain;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    input {
+      width: 100%;
+      padding: 14px 16px;
+      border: 1px solid #e0e0e0;
+      border-radius: var(--border-radius);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      background-color: #fafafa;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      background-color: white;
+      box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.1);
+    }
+
+    .input-icon {
+      position: absolute;
+      right: 15px;
+      top: 38px;
+      color: var(--gray);
+      font-size: 1rem;
+    }
+
+    button {
+      width: 100%;
+      padding: 14px;
+      background: linear-gradient(135deg, var(--primary), var(--secondary));
+      color: white;
+      border: none;
+      border-radius: var(--border-radius);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: var(--transition);
+      margin-top: 0.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    button:hover {
+      background: linear-gradient(135deg, var(--primary-dark), var(--secondary));
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(67, 97, 238, 0.25);
+    }
+
+    #registerMessage {
+      margin: 1.5rem 0;
+      padding: 14px;
+      border-radius: var(--border-radius);
+      text-align: center;
+      font-weight: 500;
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    .success {
+      color: #28a745;
+      background-color: rgba(40, 167, 69, 0.1);
+      border: 1px solid rgba(40, 167, 69, 0.2);
+      display: block;
+    }
+
+    .error {
+      color: var(--danger);
+      background-color: rgba(247, 37, 133, 0.1);
+      border: 1px solid rgba(247, 37, 133, 0.2);
+      display: block;
+    }
+
+    .back-link {
+      display: block;
+      text-align: center;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      margin-top: 1.5rem;
+      transition: var(--transition);
+      font-size: 0.95rem;
+    }
+
+    .back-link:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    .back-link i {
+      margin-right: 6px;
+    }
+
+    @media (max-width: 480px) {
+      .register-container {
+        padding: 2rem 1.5rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      input, button {
+        padding: 12px 14px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="register-container">
+    <div class="logo">
+      <img src="C:\Users\thish\OneDrive\Pictures\1.jpg" alt="EduTally Logo">
+    </div>
+    <h2>Faculty Registration</h2>
+    <form id="facultyRegister">
+      <div class="form-group">
+        <label for="f_id">Faculty ID</label>
+        <input type="text" id="f_id" placeholder="Enter faculty ID" required />
+        <i class="fas fa-id-card input-icon"></i>
+      </div>
+      <div class="form-group">
+        <label for="f_name">Full Name</label>
+        <input type="text" id="f_name" placeholder="Enter full name" required />
+        <i class="fas fa-user input-icon"></i>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Create password" required />
+        <i class="fas fa-lock input-icon"></i>
+      </div>
+      <div class="form-group">
+        <label for="c_id">Class ID</label>
+        <input type="text" id="c_id" placeholder="Enter class ID" required />
+        <i class="fas fa-users input-icon"></i>
+      </div>
+      <button type="submit">
+        <i class="fas fa-user-plus"></i> Register
+      </button>
+      <div id="registerMessage"></div>
+      <a href="index.html" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+    </form>
+  </div>
+
+  <script>
+    document.getElementById('facultyRegister').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      const f_id = document.getElementById("f_id").value.trim();
+      const f_name = document.getElementById("f_name").value.trim();
+      const password = document.getElementById("password").value;
+      const c_id = document.getElementById("c_id").value.trim();
+      const msg = document.getElementById("registerMessage");
+
+      // Clear old messages
+      msg.textContent = '';
+      msg.className = '';
+
+      // Validate inputs
+      if (!f_id || !f_name || !password || !c_id) {
+        msg.textContent = "⚠️ Please fill in all fields";
+        msg.className = 'error';
+        return;
+      }
+
+      const data = { f_id, f_name, password, c_id };
+
+      // Show loading state
+      const submitBtn = document.querySelector('button[type="submit"]');
+      const originalBtnText = submitBtn.innerHTML;
+      submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+      submitBtn.disabled = true;
+
+      fetch("http://localhost:5000/facultyregister", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      })
+      .then(async res => {
+        const response = await res.json();
+        if (!res.ok) {
+          throw response;
+        }
+        return response;
+      })
+      .then(response => {
+        if (response.message === "Faculty registered successfully") {
+          msg.textContent = "🎉 Registration successful! Redirecting...";
+          msg.className = 'success';
+
+          // Save to localStorage
+          localStorage.setItem('facultyToken', response.token || "dummy-token");
+          localStorage.setItem('facultyName', f_name);
+          localStorage.setItem('facultyId', f_id);
+
+          setTimeout(() => {
+            window.location.href = "faculty-dashboard.html";
+          }, 1500);
+        } else {
+          throw response;
+        }
+      })
+      .catch(error => {
+        console.error("Registration error:", error);
+        let errorMsg = "🚫 Error occurred. Please try again.";
+        if (error.message === "Missing faculty details") {
+          errorMsg = "⚠️ Missing faculty details";
+        } else if (error.message === "Faculty already registered") {
+          errorMsg = "⚠️ Faculty ID already registered";
+        }
+        msg.textContent = errorMsg;
+        msg.className = 'error';
+      })
+      .finally(() => {
+        submitBtn.innerHTML = originalBtnText;
+        submitBtn.disabled = false;
+      });
+    });
+
+    // Add input validation as user types
+    document.querySelectorAll('input').forEach(input => {
+      input.addEventListener('input', function() {
+        if (this.value.trim()) {
+          this.style.borderColor = '#e0e0e0';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

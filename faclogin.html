@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Faculty Login | EduTally</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #2563eb;
+      --primary-light: #dbeafe;
+      --primary-dark: #1d4ed8;
+      --secondary: #10b981;
+      --dark: #1e293b;
+      --light: #f8fafc;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
+      --danger: #dc2626;
+      --success: #16a34a;
+      --warning: #d97706;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --radius: 12px;
+      --radius-sm: 8px;
+      --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+      min-height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+      color: var(--dark);
+    }
+
+    .login-container {
+      background: white;
+      padding: 2.5rem;
+      border-radius: var(--radius);
+      box-shadow: var(--shadow-md);
+      width: 100%;
+      max-width: 450px;
+      text-align: center;
+      position: relative;
+      overflow: hidden;
+      transform: translateY(0);
+      opacity: 1;
+      transition: var(--transition);
+      animation: fadeInUp 0.6s ease-out;
+    }
+
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .login-container::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 6px;
+      background: linear-gradient(90deg, var(--primary), var(--secondary));
+    }
+
+    .logo {
+      margin-bottom: 1.5rem;
+      transition: var(--transition);
+    }
+
+    .logo img {
+      height: 60px;
+      transition: var(--transition);
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    h2 {
+      font-size: 1.75rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      color: var(--dark);
+      position: relative;
+      display: inline-block;
+    }
+
+    h2::after {
+      content: '';
+      position: absolute;
+      bottom: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 4px;
+      background: var(--primary);
+      border-radius: 2px;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+      text-align: left;
+      position: relative;
+    }
+
+    label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 500;
+      color: var(--dark);
+      font-size: 0.95rem;
+    }
+
+    .input-wrapper {
+      position: relative;
+    }
+
+    input {
+      width: 100%;
+      padding: 0.875rem 1rem 0.875rem 2.75rem;
+      border: 1px solid var(--gray-light);
+      border-radius: var(--radius-sm);
+      font-size: 0.95rem;
+      transition: var(--transition);
+      background-color: #f8fafc;
+    }
+
+    input:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+      background-color: white;
+    }
+
+    .input-icon {
+      position: absolute;
+      left: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      font-size: 1.1rem;
+    }
+
+    .password-toggle {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: var(--transition);
+    }
+
+    .password-toggle:hover {
+      color: var(--primary);
+    }
+
+    button {
+      width: 100%;
+      padding: 0.875rem;
+      background-color: var(--primary);
+      color: white;
+      border: none;
+      border-radius: var(--radius-sm);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 1rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    button:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: var(--shadow);
+    }
+
+    button:active {
+      transform: translateY(0);
+    }
+
+    #loginMessage {
+      margin-top: 1rem;
+      padding: 0.875rem;
+      border-radius: var(--radius-sm);
+      text-align: center;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+    }
+
+    .success {
+      color: var(--success);
+      background-color: #f0fdf4;
+      border: 1px solid #bbf7d0;
+    }
+
+    .error {
+      color: var(--danger);
+      background-color: #fef2f2;
+      border: 1px solid #fecaca;
+    }
+
+    .warning {
+      color: var(--warning);
+      background-color: #fffbeb;
+      border: 1px solid #fef08a;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 1.5rem;
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.25rem;
+    }
+
+    .back-link:hover {
+      color: var(--primary-dark);
+      text-decoration: underline;
+    }
+
+    .forgot-password {
+      display: block;
+      text-align: right;
+      margin-top: 0.5rem;
+      font-size: 0.85rem;
+      color: var(--gray);
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .forgot-password:hover {
+      color: var(--primary);
+    }
+
+    .loading-spinner {
+      display: inline-block;
+      width: 1.25rem;
+      height: 1.25rem;
+      border: 3px solid rgba(255, 255, 255, 0.3);
+      border-radius: 50%;
+      border-top-color: white;
+      animation: spin 1s ease-in-out infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .footer-text {
+      margin-top: 1.5rem;
+      font-size: 0.85rem;
+      color: var(--gray);
+    }
+
+    @media (max-width: 480px) {
+      .login-container {
+        padding: 1.75rem;
+      }
+      
+      h2 {
+        font-size: 1.5rem;
+      }
+      
+      input {
+        padding: 0.75rem 1rem 0.75rem 2.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="logo">
+      <img src="C:\Users\thish\OneDrive\Pictures\1.jpg" alt="EduTally Logo">
+    </div>
+    <h2>Faculty Login</h2>
+    <form id="facultyLogin">
+      <div class="form-group">
+        <label for="f_id">Faculty ID</label>
+        <div class="input-wrapper">
+          <i class="fas fa-user input-icon"></i>
+          <input type="text" id="f_id" placeholder="Enter your faculty ID" required />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="input-wrapper">
+          <i class="fas fa-lock input-icon"></i>
+          <input type="password" id="password" placeholder="Enter your password" required />
+          <i class="fas fa-eye password-toggle" id="togglePassword"></i>
+        </div>
+        <a href="forgot-password.html" class="forgot-password">Forgot password?</a>
+      </div>
+      <button type="submit" id="loginButton">
+        <span id="buttonText">Login</span>
+      </button>
+      <div id="loginMessage"></div>
+      <a href="index.html" class="back-link">
+        <i class="fas fa-arrow-left"></i> Back to Home
+      </a>
+      <p class="footer-text">Don't have an account? <a href="facreg.html" style="color: var(--primary);">Register here</a></p>
+    </form>
+  </div>
+
+   <script>
+    document.getElementById('facultyLogin').addEventListener('submit', function(e) {
+      e.preventDefault();
+
+      // Get form values
+      const f_id = document.getElementById("f_id").value.trim();
+      const password = document.getElementById("password").value;
+      const messageElement = document.getElementById("loginMessage");
+
+      // Clear previous messages
+      messageElement.textContent = '';
+      messageElement.className = '';
+
+      // Validate inputs
+      if (!f_id || !password) {
+        messageElement.textContent = 'Please fill in all fields';
+        messageElement.className = 'error';
+        return;
+      }
+
+      // Show loading state
+      const submitButton = e.target.querySelector('button[type="submit"]');
+      submitButton.disabled = true;
+      submitButton.textContent = 'Logging in...';
+
+      // Prepare data
+      const data = {
+        f_id: f_id,
+        password: password
+      };
+
+      // Send login request
+      fetch("http://localhost:5000/facultylogin", {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify(data)
+      })
+      .then(res => {
+        if (!res.ok) {
+          throw new Error('Network response was not ok');
+        }
+        return res.json();
+      })
+      .then(response => {
+        if (response.access_token) {
+          // Store token and faculty info in localStorage
+          localStorage.setItem('facultyToken', response.access_token);
+          localStorage.setItem('facultyName', response.faculty_name);
+          localStorage.setItem('facultyId', f_id);
+
+          // Show success message
+          messageElement.textContent = `✅ Login successful! Redirecting...`;
+          messageElement.className = 'success';
+
+          // Redirect to faculty dashboard after delay
+          setTimeout(() => {
+            window.location.href = "faculty-dashboard.html";
+          }, 1000);
+        } else {
+          throw new Error(response.message || 'Login failed');
+        }
+      })
+      .catch(error => {
+        console.error('Login error:', error);
+        messageElement.textContent = error.message || 'Login failed. Please try again.';
+        messageElement.className = 'error';
+      })
+      .finally(() => {
+        submitButton.disabled = false;
+        submitButton.textContent = 'Login';
+      });
+    });
+
+    // Check if already logged in
+    window.addEventListener('DOMContentLoaded', () => {
+      const token = localStorage.getItem('facultyToken');
+      if (token) {
+        window.location.href = "faculty-dashboard.html";
+      }
+    });
+  </script>
+</body>
+</html>

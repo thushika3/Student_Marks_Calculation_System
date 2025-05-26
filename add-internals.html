@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Add Internals | EduTally</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    :root {
+      --primary: #3b82f6;
+      --primary-light: #dbeafe;
+      --primary-dark: #2563eb;
+      --primary-extra-light: #eff6ff;
+      --danger: #ef4444;
+      --danger-light: #fee2e2;
+      --danger-dark: #dc2626;
+      --success: #10b981;
+      --success-light: #d1fae5;
+      --success-dark: #059669;
+      --warning: #f59e0b;
+      --warning-light: #fef3c7;
+      --dark: #1e293b;
+      --darker: #0f172a;
+      --light: #f8fafc;
+      --lighter: #f1f5f9;
+      --gray: #64748b;
+      --gray-light: #e2e8f0;
+      --gray-lighter: #f1f5f9;
+      --radius: 0.5rem;
+      --radius-sm: 0.25rem;
+      --radius-lg: 0.75rem;
+      --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+      --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+      --shadow-md: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+      --shadow-lg: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+      --transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    * {
+      margin: 0; 
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+
+    body {
+      background-color: var(--gray-lighter);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      color: var(--dark);
+      line-height: 1.5;
+    }
+
+    .navbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: white;
+      box-shadow: var(--shadow-sm);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      cursor: pointer;
+      text-decoration: none;
+      transition: var(--transition);
+    }
+
+    .logo:hover {
+      transform: translateY(-1px);
+    }
+
+    .logo img {
+      width: 40px;
+      height: 40px;
+      object-fit: cover;
+      border-radius: var(--radius-sm);
+    }
+
+    .logo h1 {
+      color: var(--primary);
+      font-size: 1.5rem;
+      font-weight: 700;
+      margin-left: 0.75rem;
+    }
+
+    .nav-links {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .nav-links a {
+      color: var(--gray);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 0.95rem;
+      padding: 0.5rem 0;
+      position: relative;
+      transition: var(--transition);
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    .nav-links a:hover {
+      color: var(--primary);
+    }
+
+    .nav-links a.active {
+      color: var(--primary);
+      font-weight: 600;
+    }
+
+    .nav-links a.active::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 2px;
+      background-color: var(--primary);
+    }
+
+    .nav-links a::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background-color: var(--primary);
+      transition: var(--transition);
+    }
+
+    .nav-links a:hover::after {
+      width: 100%;
+    }
+
+    .menu-right {
+      display: flex;
+      gap: 1.5rem;
+      align-items: center;
+    }
+
+    .btn {
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius-sm);
+      font-weight: 500;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: var(--transition);
+      border: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-primary {
+      background-color: var(--primary);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background-color: var(--primary-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    .btn-outline {
+      background-color: transparent;
+      color: var(--gray);
+      border: 1px solid var(--gray-light);
+    }
+
+    .btn-outline:hover {
+      background-color: var(--gray-lighter);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow-sm);
+    }
+
+    .btn-danger {
+      background-color: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background-color: var(--danger-dark);
+      transform: translateY(-1px);
+      box-shadow: var(--shadow);
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      padding: 0.5rem;
+      border-radius: var(--radius);
+      transition: var(--transition);
+    }
+
+    .user-profile:hover {
+      background-color: var(--primary-extra-light);
+    }
+
+    .user-profile span {
+      color: var(--dark);
+      font-weight: 500;
+    }
+
+    .avatar {
+      width: 40px;
+      height: 40px;
+      border-radius: 50%;
+      background-color: var(--primary-light);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--primary);
+      font-weight: 600;
+      font-size: 1rem;
+      transition: var(--transition);
+    }
+
+    .user-profile:hover .avatar {
+      transform: scale(1.05);
+    }
+
+    .main-content {
+      flex: 1;
+      padding: 2rem;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .page-header {
+      text-align: center;
+      margin-bottom: 2rem;
+      width: 100%;
+      max-width: 800px;
+    }
+
+    .page-header h2 {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--darker);
+      margin-bottom: 0.75rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.75rem;
+    }
+
+    .page-header p {
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    .form-container {
+      width: 100%;
+      max-width: 700px;
+      background: white;
+      padding: 2.5rem;
+      border-radius: var(--radius-lg);
+      box-shadow: var(--shadow-md);
+      transition: var(--transition);
+    }
+
+    .form-container:hover {
+      box-shadow: var(--shadow-lg);
+    }
+
+    .form-group {
+      margin-bottom: 1.75rem;
+      position: relative;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.75rem;
+      font-weight: 500;
+      color: var(--darker);
+      font-size: 0.95rem;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 1px solid var(--gray-light);
+      border-radius: var(--radius-sm);
+      font-size: 1rem;
+      transition: var(--transition);
+      background-color: var(--lighter);
+    }
+
+    .form-control:focus {
+      outline: none;
+      border-color: var(--primary);
+      box-shadow: 0 0 0 3px var(--primary-light);
+      background-color: white;
+    }
+
+    .form-control::placeholder {
+      color: var(--gray);
+      opacity: 0.6;
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 1.25rem;
+      margin-top: 2.5rem;
+    }
+
+    .alert {
+      padding: 1rem 1.5rem;
+      border-radius: var(--radius-sm);
+      margin-bottom: 2rem;
+      display: none;
+      width: 100%;
+      max-width: 700px;
+      animation: fadeIn 0.3s ease-out;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(-10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    .alert-success {
+      background-color: var(--success-light);
+      color: var(--success-dark);
+      border: 1px solid var(--success);
+    }
+
+    .alert-error {
+      background-color: var(--danger-light);
+      color: var(--danger-dark);
+      border: 1px solid var(--danger);
+    }
+
+    .alert-warning {
+      background-color: var(--warning-light);
+      color: var(--warning);
+      border: 1px solid var(--warning);
+    }
+
+    .input-group {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .input-group .form-group {
+      flex: 1;
+    }
+
+    .form-icon {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      pointer-events: none;
+    }
+
+    .marks-container {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .mark-input {
+      position: relative;
+    }
+
+    .mark-input input {
+      padding-right: 2.5rem;
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .mark-label {
+      position: absolute;
+      right: 1rem;
+      top: 50%;
+      transform: translateY(-50%);
+      color: var(--gray);
+      font-weight: 500;
+    }
+
+    .progress-container {
+      width: 100%;
+      height: 6px;
+      background-color: var(--gray-light);
+      border-radius: 3px;
+      margin-top: 0.5rem;
+      overflow: hidden;
+    }
+
+    .progress-bar {
+      height: 100%;
+      background-color: var(--primary);
+      width: 0%;
+      transition: width 0.5s ease;
+    }
+
+    /* Tooltip styles */
+    .tooltip {
+      position: relative;
+      display: inline-block;
+    }
+
+    .tooltip .tooltip-text {
+      visibility: hidden;
+      width: 200px;
+      background-color: var(--dark);
+      color: white;
+      text-align: center;
+      border-radius: var(--radius-sm);
+      padding: 0.5rem;
+      position: absolute;
+      z-index: 1;
+      bottom: 125%;
+      left: 50%;
+      transform: translateX(-50%);
+      opacity: 0;
+      transition: var(--transition);
+      font-size: 0.85rem;
+      font-weight: normal;
+    }
+
+    .tooltip:hover .tooltip-text {
+      visibility: visible;
+      opacity: 1;
+    }
+
+    /* Responsive adjustments */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 1rem;
+      }
+
+      .nav-links {
+        margin: 1rem 0;
+        flex-wrap: wrap;
+        justify-content: center;
+      }
+
+      .menu-right {
+        margin-top: 1rem;
+      }
+
+      .form-container {
+        padding: 1.75rem;
+      }
+
+      .input-group {
+        flex-direction: column;
+        gap: 0;
+      }
+
+      .marks-container {
+        grid-template-columns: 1fr;
+      }
+
+      .page-header h2 {
+        font-size: 1.75rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .form-actions {
+        flex-direction: column;
+        gap: 0.75rem;
+      }
+      
+      .btn {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <a href="index.html" class="logo">
+      <img src="C:\Users\thish\OneDrive\Pictures\1.jpg" alt="EduTally Logo" />
+      <h1>EduTally</h1>
+    </a>
+    <nav class="nav-links" id="mainNavLinks">
+      <a href="faculty-dashboard.html"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+      <a href="add-internals.html" class="active"><i class="fas fa-edit"></i> Add Internals</a>
+      <a href="add-externals.html"><i class="fas fa-file-alt"></i> Add Externals</a>
+      <a href="view-students.html"><i class="fas fa-users"></i> View Students</a>
+    </nav>
+    <div class="menu-right" id="authSection">
+      <!-- Filled by JS -->
+    </div>
+  </div>
+
+  <div class="main-content">
+    <div class="page-header">
+      <h2><i class="fas fa-edit"></i> Add Internal Marks</h2>
+      <p>Enter the internal assessment marks for your students. All fields are required.</p>
+    </div>
+
+    <div class="alert alert-success" id="successAlert">
+      <i class="fas fa-check-circle fa-lg"></i> 
+      <div>
+        <strong>Success!</strong> Internal marks submitted successfully!
+        <div class="progress-container">
+          <div class="progress-bar" id="successProgress"></div>
+        </div>
+      </div>
+    </div>
+
+    <div class="alert alert-error" id="errorAlert">
+      <i class="fas fa-exclamation-circle fa-lg"></i> 
+      <div>
+        <strong>Error!</strong> <span id="errorMessage"></span>
+      </div>
+    </div>
+
+    <div class="form-container">
+      <form id="internalForm">
+        <div class="input-group">
+          <div class="form-group">
+            <label for="s_id" class="form-label">Student ID</label>
+            <input type="text" id="s_id" class="form-control" required placeholder="Enter student ID">
+            <i class="fas fa-user-graduate form-icon"></i>
+          </div>
+          <div class="form-group">
+            <label for="sub_id" class="form-label">Subject ID</label>
+            <input type="text" id="sub_id" class="form-control" required placeholder="Enter subject ID">
+            <i class="fas fa-book form-icon"></i>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="sub_name" class="form-label">Subject Name</label>
+          <input type="text" id="sub_name" class="form-control" required placeholder="Enter subject name">
+          <i class="fas fa-book-open form-icon"></i>
+        </div>
+
+        <div class="form-group">
+          <label class="form-label">Internal Assessment Marks</label>
+          <div class="marks-container">
+            <div class="form-group mark-input">
+              <label for="mid1" class="form-label">Mid 1</label>
+              <input type="number" id="mid1" class="form-control" min="0" max="25" required placeholder="0-25">
+              <span class="mark-label">/25</span>
+            </div>
+            <div class="form-group mark-input">
+              <label for="mid2" class="form-label">Mid 2</label>
+              <input type="number" id="mid2" class="form-control" min="0" max="25" required placeholder="0-25">
+              <span class="mark-label">/25</span>
+            </div>
+            <div class="form-group mark-input">
+              <label for="mid3" class="form-label">Mid 3</label>
+              <input type="number" id="mid3" class="form-control" min="0" max="25" required placeholder="0-25">
+              <span class="mark-label">/25</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="form-group">
+          <div class="tooltip">
+            <i class="fas fa-info-circle" style="color: var(--gray);"></i>
+            <span class="tooltip-text">Total internal marks will be calculated as the average of Mid 1, Mid 2, and Mid 3 assessments.</span>
+          </div>
+        </div>
+
+        <div class="form-actions">
+          <button type="reset" class="btn btn-outline">
+            <i class="fas fa-redo"></i> Reset Form
+          </button>
+          <button type="submit" class="btn btn-primary" id="submitBtn">
+            <i class="fas fa-paper-plane"></i> Submit Marks
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Authentication and user session management
+    function updateAuthUI() {
+      const facultyName = localStorage.getItem('facultyName');
+      const facultyToken = localStorage.getItem('facultyToken');
+      const authSection = document.getElementById("authSection");
+
+      if (facultyToken) {
+        authSection.innerHTML = `
+          <div class="user-profile">
+            <div class="avatar" title="${facultyName}">${facultyName.charAt(0).toUpperCase()}</div>
+            <span>${facultyName}</span>
+            <button class="btn btn-danger" onclick="logout()">
+              <i class="fas fa-sign-out-alt"></i> Logout
+            </button>
+          </div>
+        `;
+      } else {
+        window.location.href = "faclogin.html";
+      }
+    }
+
+    function logout() {
+      localStorage.clear();
+      window.location.href = "index.html";
+    }
+
+    // Form submission handling
+    document.addEventListener("DOMContentLoaded", function() {
+      updateAuthUI();
+      
+      const form = document.getElementById("internalForm");
+      const successAlert = document.getElementById("successAlert");
+      const errorAlert = document.getElementById("errorAlert");
+      const errorMessage = document.getElementById("errorMessage");
+      const successProgress = document.getElementById("successProgress");
+      const submitBtn = document.getElementById("submitBtn");
+
+      // Initially hide alerts
+      successAlert.style.display = "none";
+      errorAlert.style.display = "none";
+
+      // Input validation
+      function validateMarks(input) {
+        const value = parseInt(input.value);
+        if (isNaN(value) || value < 0 || value > 25) {
+          input.style.borderColor = "var(--danger)";
+          input.style.boxShadow = "0 0 0 3px var(--danger-light)";
+          return false;
+        } else {
+          input.style.borderColor = "var(--gray-light)";
+          input.style.boxShadow = "none";
+          return true;
+        }
+      }
+
+      // Add validation to mark inputs
+      const markInputs = [document.getElementById("mid1"), document.getElementById("mid2"), document.getElementById("mid3")];
+      markInputs.forEach(input => {
+        input.addEventListener("blur", () => validateMarks(input));
+        input.addEventListener("input", () => {
+          if (input.value && !validateMarks(input)) {
+            errorMessage.textContent = "Marks must be between 0 and 25";
+            errorAlert.style.display = "flex";
+          } else {
+            errorAlert.style.display = "none";
+          }
+        });
+      });
+
+      form.addEventListener("submit", async function(e) {
+        e.preventDefault();
+        
+        // Hide alerts
+        successAlert.style.display = "none";
+        errorAlert.style.display = "none";
+        
+        // Validate all mark inputs
+        let marksValid = true;
+        markInputs.forEach(input => {
+          if (!validateMarks(input)) marksValid = false;
+        });
+
+        if (!marksValid) {
+          errorMessage.textContent = "Please enter valid marks (0-25) for all assessments";
+          errorAlert.style.display = "flex";
+          return;
+        }
+
+        // Get form values
+        const s_id = document.getElementById("s_id").value.trim();
+        const sub_id = document.getElementById("sub_id").value.trim();
+        const sub_name = document.getElementById("sub_name").value.trim();
+        const mid1 = parseInt(document.getElementById("mid1").value);
+        const mid2 = parseInt(document.getElementById("mid2").value);
+        const mid3 = parseInt(document.getElementById("mid3").value);
+        const f_id = localStorage.getItem("facultyId");
+
+        // Disable submit button during processing
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Processing...';
+
+        const data = {
+          s_id, 
+          f_id, 
+          sub_id, 
+          sub_name, 
+          mid1, 
+          mid2, 
+          mid3
+        };
+
+        try {
+          const response = await fetch("http://127.0.0.1:5000/internals", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              "Authorization": `Bearer ${localStorage.getItem("facultyToken")}`
+            },
+            body: JSON.stringify(data)
+          });
+
+          const result = await response.json();
+
+          if (response.ok) {
+            // Show success with progress animation
+            successAlert.style.display = "flex";
+            successProgress.style.width = "100%";
+            
+            // Reset form
+            form.reset();
+            
+            // Redirect after delay
+            setTimeout(() => {
+              window.location.href = "faculty-dashboard.html";
+            }, 2000);
+          } else {
+            errorMessage.textContent = result.message || "Submission failed. Please try again.";
+            errorAlert.style.display = "flex";
+            
+            // Scroll to error message
+            errorAlert.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          }
+        } catch (error) {
+          console.error("Error:", error);
+          errorMessage.textContent = "Network error. Please check your connection.";
+          errorAlert.style.display = "flex";
+        } finally {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = '<i class="fas fa-paper-plane"></i> Submit Marks';
+        }
+      });
+    });
+  </script>
+</body>
+</html>
