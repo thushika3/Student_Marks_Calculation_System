@@ -8,11 +8,12 @@ The Student Marks Calculation System is a web-based application that streamlines
 
 The project consists of the following main components:
 
+- `app.py` : Main Backend Application
 - `index.html`: Home page with login/registration
 - `student-dashboard.html`: Student dashboard with options to view marks and report
 - `faculty-dashboard.html`: Faculty dashboard for entering marks
 - `report-card.html`: Displays final marks and grades
-- `database.js`: Handles database schema and queries
+- `student_mark.sql`: Handles database schema and queries
 
 ## 3. 🔧 Key Technologies
 
