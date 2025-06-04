@@ -20,7 +20,7 @@ password text,
 c_id VARCHAR(20)
 );
 select * from student;
-
+drop table student;
 create table subject(
 sub_id VARCHAR(20) primary key,
 sub_name text not null,
