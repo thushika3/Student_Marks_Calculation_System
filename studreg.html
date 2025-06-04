@@ -233,7 +233,7 @@
 <body>
   <div class="register-container">
     <div class="logo">
-      <img src="C:\Users\thish\OneDrive\Pictures\1.jpg" alt="EduTally Logo" />
+      <img src="1.jpg" alt="EduTally Logo" />
     </div>
     <h2>Create Student Account</h2>
     <form id="studentRegisterForm">
@@ -279,7 +279,7 @@
       <div id="registerMessage"></div>
       
       <div class="form-footer">
-        Already have an account? <a href="login.html" style="color: var(--primary); text-decoration: none;">Sign in</a>
+        Already have an account? <a href="studlog.html" style="color: var(--primary); text-decoration: none;">Sign in</a>
       </div>
       
       <a href="index.html" class="back-link">
@@ -288,82 +288,84 @@
     </form>
   </div>
 
-  <script>
-    document.getElementById('studentRegisterForm').addEventListener('submit', function(e) {
-      e.preventDefault();
+ <script>
+  document.getElementById('studentRegisterForm').addEventListener('submit', function(e) {
+    e.preventDefault();
 
-      const s_id = document.getElementById('s_id').value.trim();
-      const s_name = document.getElementById('s_name').value.trim();
-      const password = document.getElementById('password').value;
-      const c_id = document.getElementById('c_id').value.trim();
-      const msg = document.getElementById('registerMessage');
-      const button = document.getElementById('registerButton');
+    const s_id = document.getElementById('s_id').value.trim();
+    const s_name = document.getElementById('s_name').value.trim();
+    const password = document.getElementById('password').value;
+    const c_id = document.getElementById('c_id').value.trim();
+    const msg = document.getElementById('registerMessage');
+    const button = document.getElementById('registerButton');
 
-      msg.textContent = '';
-      msg.className = '';
-      button.disabled = true;
-      button.innerHTML = '<span class="spinner">⏳</span> Processing...';
+    msg.textContent = '';
+    msg.className = '';
+    button.disabled = true;
+    button.innerHTML = '⏳ Registering...';
 
-      const studentData = { s_id, s_name, password, c_id };
+    const studentData = { s_id, s_name, password, c_id };
 
-      // Simulate API call with timeout for demo
-      setTimeout(() => {
-        // In a real app, you would use fetch() to your backend
-        // This is just for demonstration
-        const isSuccess = Math.random() > 0.3; // 70% success rate for demo
-        
-        if (isSuccess) {
-          msg.textContent = "🎉 Registration successful! Redirecting...";
-          msg.className = 'success';
-          const student = {
-            s_id: s_id,
-            s_name: response.student_name
-          };
-          
-          // Save to localStorage
-          localStorage.setItem('student', JSON.stringify(student));
-          localStorage.setItem('studentToken', 'demo-token-' + Math.random().toString(36).substr(2, 9));
-          localStorage.setItem('studentName', s_name);
-          localStorage.setItem('studentId', s_id);
-          
-          setTimeout(() => {
-            window.location.href = 'student-dashboard.html';
-          }, 1500);
-        } else {
-          msg.textContent = "⚠️ Student ID already registered";
-          msg.className = 'error';
-          button.disabled = false;
-          button.innerHTML = 'Register Now';
-        }
-      }, 1500);
-    });
+    fetch('http://localhost:5000/studentregister', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(studentData)
+    })
+    .then(response => response.json().then(data => ({ status: response.status, body: data })))
+    .then(({ status, body }) => {
+      if (status === 201) {
+        msg.textContent = "🎉 Registration successful! Redirecting...";
+        msg.className = 'success';
 
-    // Password strength indicator
-    document.getElementById('password').addEventListener('input', function(e) {
-      const password = e.target.value;
-      const strengthBar = document.getElementById('passwordStrength');
-      
-      // Reset
-      strengthBar.className = 'strength-meter';
-      
-      if (password.length === 0) return;
-      
-      // Simple strength calculation
-      let strength = 0;
-      if (password.length > 5) strength += 1;
-      if (password.length > 8) strength += 1;
-      if (/[A-Z]/.test(password)) strength += 1;
-      if (/[0-9]/.test(password)) strength += 1;
-      if (/[^A-Za-z0-9]/.test(password)) strength += 1;
-      
-      if (strength < 2) {
-        strengthBar.classList.add('weak');
-      } else if (strength < 4) {
-        strengthBar.classList.add('medium');
+        localStorage.setItem('studentName', s_name);
+        localStorage.setItem('studentId', s_id);
+
+        setTimeout(() => {
+          window.location.href = "stud_db.html";
+        }, 1500);
       } else {
-        strengthBar.classList.add('strong');
+        msg.textContent = "⚠️ " + (body.message || "Registration failed");
+        msg.className = 'error';
+        button.disabled = false;
+        button.innerHTML = 'Register Now';
       }
+    })
+    .catch(error => {
+      console.error('Error:', error);
+      msg.textContent = "⚠️ Could not connect to server.";
+      msg.className = 'error';
+      button.disabled = false;
+      button.innerHTML = 'Register Now';
     });
-  </script>
+  });
+
+  // Password strength indicator
+  document.getElementById('password').addEventListener('input', function(e) {
+    const password = e.target.value;
+    const strengthBar = document.getElementById('passwordStrength');
+    
+    strengthBar.className = 'strength-meter';
+
+    if (password.length === 0) return;
+
+    let strength = 0;
+    if (password.length > 5) strength += 1;
+    if (password.length > 8) strength += 1;
+    if (/[A-Z]/.test(password)) strength += 1;
+    if (/[0-9]/.test(password)) strength += 1;
+    if (/[^A-Za-z0-9]/.test(password)) strength += 1;
+
+    if (strength < 2) {
+      strengthBar.classList.add('weak');
+    } else if (strength < 4) {
+      strengthBar.classList.add('medium');
+    } else {
+      strengthBar.classList.add('strong');
+    }
+  });
+</script>
+
 </body>
 </html>
