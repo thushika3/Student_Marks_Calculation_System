@@ -363,6 +363,45 @@ def generate_report_card(s_id):
 
     except Exception as e:
         return jsonify({"error": str(e)}), 500
+    
+@app.route('/student', methods=['GET'])
+def get_students():
+    cur = mysql.connection.cursor()
+    try:
+        cur.execute("SELECT * FROM student")
+        rows = cur.fetchall()
+        col_names = [desc[0] for desc in cur.description]
+        students = [dict(zip(col_names, row)) for row in rows]
+        return jsonify(students)
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+@app.route("/student/<s_id>",methods=["DELETE"])
+def deletetodo(s_id):
+    cur=mysql.connection.cursor()
+    cur.execute("delete from student where s_id=%s",(s_id,))
+    mysql.connection.commit()
+    rowcount = cur.rowcount
+    if rowcount==0:
+        return jsonify({"error":"Todo not found to delete"}) #404
+    return jsonify({"message":"Todo deleted success","id":s_id}) #200
+
+@app.route("/student/<s_id>", methods=["PUT"])
+def update_student(s_id):
+    cur = mysql.connection.cursor()
+    data = request.get_json()  # use get_json()
+
+    s_name = data.get('s_name')
+    c_id = data.get('c_id')
+
+    try:
+        cur.execute("UPDATE student SET s_name = %s, c_id = %s WHERE s_id = %s", (s_name, c_id, s_id))
+        mysql.connection.commit()
+        return jsonify({"message": "Student updated successfully"}), 200
+    except Exception as e:
+        return jsonify({"error": str(e)}), 500
+
+
               
 if __name__ == "__main__":
     app.run(debug=True)
