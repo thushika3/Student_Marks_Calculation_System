@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: student-mark-system
+    env: python
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "app.py"
+    autoDeploy: true
